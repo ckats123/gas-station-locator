@@ -2,7 +2,6 @@
 
 const router = require("express").Router();
 const db = require('../src/db/connection');
-const authorization = require("../middleware/authorization");
 
 
 // Get all gas stations
