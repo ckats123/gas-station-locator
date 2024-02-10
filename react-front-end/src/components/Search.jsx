@@ -74,45 +74,47 @@ const Search = () => {
   };
 
   // Simulated fetchGasPrices function
-  const fetchGasPrices = () => {
-    console.log('Fetching gas prices with criteria:', state);
-  
-    const citiesAndProvinces = ['Winnipeg', 'Vancouver', 'Toronto', 'Montreal', 'Calgary', 'Edmonton', 'Ottawa', 'Quebec City', 'Halifax', 'Saskatoon'];
-    const streetNames = ['Main St', 'Elm St', 'Pine St', 'Maple Ave', 'Oak Blvd', 'Cedar Rd', 'Spruce Way', 'Birch Ln'];
-  
-    // Normalize the search query to improve matching accuracy
-    const normalizedSearchQuery = state.searchQuery.trim().toLowerCase();
-    
-    // Simulate data for gas stations
-    let fetchedGasStations = citiesAndProvinces.flatMap((city, cityIndex) => {
-      return Array.from({ length: 2 }, (_, stationIndex) => {
-        const streetName = streetNames[Math.floor(Math.random() * streetNames.length)];
-        return {
-          id: cityIndex * 10 + stationIndex,
-          name: `Gas Station ${cityIndex * 2 + stationIndex + 1} - ${city}`,
-          address: `${Math.floor(Math.random() * 1000) + 1} ${streetName}, ${city}, Canada`,
-          city: city,
-          fuelType: ['Regular', 'Premium', 'Diesel'][Math.floor(Math.random() * 3)],
-          paymentMethod: ['Cash', 'Credit', 'Cash or Credit'][Math.floor(Math.random() * 3)],
-          stationBrand: ['Shell', 'Exxon', 'BP'][Math.floor(Math.random() * 3)],
-          lat: 49.2827 + (Math.random() * 10 - 5), // Ideally based on the city's actual latitude
-          lng: -123.1207 + (Math.random() * 10 - 5), // Ideally based on the city's actual longitude
-        };
-      });
+const fetchGasPrices = () => {
+  console.log('Fetching gas prices with criteria:', state);
+
+  const citiesAndProvinces = ['Winnipeg', 'Vancouver', 'Toronto', 'Montreal', 'Calgary', 'Edmonton', 'Ottawa', 'Quebec City', 'Halifax', 'Saskatoon'];
+  const streetNames = ['Main St', 'Elm St', 'Pine St', 'Maple Ave', 'Oak Blvd', 'Cedar Rd', 'Spruce Way', 'Birch Ln'];
+
+  // Normalize the search query to improve matching accuracy
+  const normalizedSearchQuery = state.searchQuery.trim().toLowerCase();
+
+  // Simulate data for gas stations
+  let fetchedGasStations = citiesAndProvinces.flatMap((city, cityIndex) => {
+    return Array.from({ length: 2 }, (_, stationIndex) => {
+      const streetName = streetNames[Math.floor(Math.random() * streetNames.length)];
+      return {
+        id: cityIndex * 10 + stationIndex,
+        name: `Gas Station ${cityIndex * 2 + stationIndex + 1} - ${city}`,
+        address: `${Math.floor(Math.random() * 1000) + 1} ${streetName}, ${city}, Canada`,
+        city: city,
+        fuelType: ['Regular', 'Premium', 'Diesel'][Math.floor(Math.random() * 3)],
+        paymentMethod: ['Cash', 'Credit', 'Cash or Credit'][Math.floor(Math.random() * 3)],
+        stationBrand: ['Shell', 'Exxon', 'BP'][Math.floor(Math.random() * 3)],
+        lat: 49.2827 + (Math.random() * 10 - 5), // Ideally based on the city's actual latitude
+        lng: -123.1207 + (Math.random() * 10 - 5), // Ideally based on the city's actual longitude
+        price: (Math.random() * (2.5 - 1.5) + 1.5).toFixed(2), // Simulated gas price between $1.5 and $2.5
+      };
     });
-  
-    // Filter based on the normalized search query
-    fetchedGasStations = fetchedGasStations.filter(station => 
-      station.city.trim().toLowerCase().includes(normalizedSearchQuery)
-    );
-  
-    setGasStations(fetchedGasStations);
-  };
+  });
+
+  // Filter based on the normalized search query
+  fetchedGasStations = fetchedGasStations.filter(station => 
+    station.city.trim().toLowerCase().includes(normalizedSearchQuery)
+  );
+
+  setGasStations(fetchedGasStations);
+};
+
   
   
   return (
     <div style={{ padding: '20px', maxWidth: '800px', margin: '0 auto' }}> {/* Added maxWidth and margin auto */}
-      <h2>Search Gas Prices</h2>
+      <h2>Search Gas Prices In All Provinces</h2>
 
       <TextField
         fullWidth
@@ -190,7 +192,8 @@ const Search = () => {
             <Marker position={[station.lat, station.lng]} icon={redIcon} key={station.id}>
               <Popup>
                 {station.name}<br />
-                {station.address}
+                {station.address}<br />
+                Gas Price: ${station.price}
               </Popup>
             </Marker>
           ))}

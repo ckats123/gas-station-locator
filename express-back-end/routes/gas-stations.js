@@ -1,40 +1,50 @@
 const router = require("express").Router();
 const db = require('../src/db/connection');
+const authorization = require("../middleware/authorization");
 
-// Get all gas stations
+
+// Get all gas stations within a certain distance of the user's location
 router.get("/", async (req, res) => {
   try {
-      const query = `
-          SELECT
-              gs.name,
-              gs.vicinity,
-              gs.payment_method,
-              gs.fuel_type,
-              l.lat,
-              l.lng,
-              gp.regular_price,
-              gp.premium_price,
-              gp.diesel_price,
-              r.rating
-          FROM gas_stations gs
-          JOIN locations l ON gs.id = l.gas_station_id
-          JOIN gas_prices gp ON gs.id = gp.gas_station_id
-          LEFT JOIN reviews r ON gs.id = r.gas_station_id;
-      `;
-      const gasStations = await db.query(query);
-      res.json(gasStations.rows);
+    const { lat, lng } = req.query;
+
+    const query = `
+      SELECT
+        gs.name,
+        gs.vicinity,
+        gs.payment_method,
+        gs.fuel_type,
+        l.lat,
+        l.lng,
+        gp.regular_price,
+        gp.premium_price,
+        gp.diesel_price,
+        r.rating
+      FROM gas_stations gs
+      JOIN locations l ON gs.id = l.gas_station_id
+      JOIN gas_prices gp ON gs.id = gp.gas_station_id
+      LEFT JOIN reviews r ON gs.id = r.gas_station_id
+      WHERE ST_DistanceSphere(
+        ST_MakePoint(l.lng, l.lat),
+        ST_MakePoint($1, $2)
+      ) < 10000;
+    `;
+
+    const gasStations = await db.query(query, [lng, lat]);
+    res.json(gasStations.rows);
   } catch (err) {
-      console.error(err.message);
-      res.status(500).send("Server error");
+    console.error(err.message);
+    res.status(500).send("Server error");
   }
 });
+
 
 // Get a gas station
 router.get("/:id", async (req, res) => {
   try {
     const { id } = req.params;
     const gasStation = await db.query(
-      "SELECT * FROM gas_stations WHERE id = $1",
+      "SELECT * FROM gas_stations WHERE gas_station_id = $1",
       [id]
     );
     res.json(gasStation.rows[0]);
@@ -45,12 +55,12 @@ router.get("/:id", async (req, res) => {
 });
 
 // Add a gas station
-router.post("/", async (req, res) => {
+router.post("/",  async (req, res) => {
   try {
-    const { name, vicinity, payment_method, fuel_type } = req.body;
+    const { name, address, city, state, zip, lat, long } = req.body;
     const newGasStation = await db.query(
-      "INSERT INTO gas_stations (name, vicinity, payment_method, fuel_type) VALUES ($1, $2, $3, $4) RETURNING *",
-      [name, vicinity, payment_method, fuel_type]
+      "INSERT INTO gas_stations (gas_station_name, gas_station_address, gas_station_city, gas_station_state, gas_station_zip, gas_station_lat, gas_station_long) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING *",
+      [name, address, city, state, zip, lat, long]
     );
     res.json(newGasStation.rows[0]);
   } catch (err) {
@@ -60,13 +70,13 @@ router.post("/", async (req, res) => {
 });
 
 // Update a gas station
-router.put("/:id", async (req, res) => {
+router.put("/:id",  async (req, res) => {
   try {
     const { id } = req.params;
-    const { name, vicinity, payment_method, fuel_type } = req.body;
+    const { name, address, city, state, zip, lat, long } = req.body;
     const updateGasStation = await db.query(
-      "UPDATE gas_stations SET name = $1, vicinity = $2, payment_method = $3, fuel_type = $4 WHERE id = $5 RETURNING *",
-      [name, vicinity, payment_method, fuel_type, id]
+      "UPDATE gas_stations SET gas_station_name = $1, gas_station_address = $2, gas_station_city = $3, gas_station_state = $4, gas_station_zip = $5, gas_station_lat = $6, gas_station_long = $7 WHERE gas_station_id = $8 RETURNING *",
+      [name, address, city, state, zip, lat, long, id]
     );
     res.json(updateGasStation.rows[0]);
   } catch (err) {
@@ -76,11 +86,11 @@ router.put("/:id", async (req, res) => {
 });
 
 // Delete a gas station
-router.delete("/:id", async (req, res) => {
+router.delete("/:id",  async (req, res) => {
   try {
     const { id } = req.params;
     const deleteGasStation = await db.query(
-      "DELETE FROM gas_stations WHERE id = $1",
+      "DELETE FROM gas_stations WHERE gas_station_id = $1",
       [id]
     );
     res.json("Gas station was deleted");
@@ -88,6 +98,6 @@ router.delete("/:id", async (req, res) => {
     console.error(err.message);
     res.status(500).send("Server error");
   }
-});
+}); 
 
 module.exports = router;
