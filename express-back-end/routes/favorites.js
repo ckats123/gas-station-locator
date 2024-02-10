@@ -1,12 +1,8 @@
-// favorites.js
-
 const router = require("express").Router();
 const pool = require("../db");
-const authorization = require("../middleware/authorization");
 
 // Add a favorite gas station
-
-router.post("/", authorization, async (req, res) => {
+router.post("/", async (req, res) => {
   try {
     const { user_id, gas_station_id } = req.body;
     const newFavorite = await pool.query(
@@ -21,8 +17,7 @@ router.post("/", authorization, async (req, res) => {
 });
 
 // Get all favorite gas stations for a user
-
-router.get("/:id", authorization, async (req, res) => {
+router.get("/:id", async (req, res) => {
   try {
     const { id } = req.params;
     const favorites = await pool.query(
@@ -37,8 +32,7 @@ router.get("/:id", authorization, async (req, res) => {
 });
 
 // Delete a favorite gas station
-
-router.delete("/:id", authorization, async (req, res) => {
+router.delete("/:id", async (req, res) => {
   try {
     const { id } = req.params;
     const deleteFavorite = await pool.query(
