@@ -1,212 +1,33 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-	<base target="_top">
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	
-	<title>Leaflet in js test</title>
-	
-	<link rel="shortcut icon" type="image/x-icon" href="docs/images/favicon.ico" />
+//GET request to Tomtom routing API 
 
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
-		<link rel="stylesheet" type="text/css" href="styles.css" />
-		<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
-		<script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
-		<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=[your_api_key]"></script>
-		<script src="https://www.mapquestapi.com/sdk/leaflet/v2.2/mq-map.js?key=KEY"></script>
-    <script src="https://www.mapquestapi.com/sdk/leaflet/v2.2/mq-routing.js?key=KEY"></script>
+//user geoloc REPLACE WITH USER INPUT VARIABLE
+let geolocResult = {longitude:48.407326, latitude:-123.329773}
 
-		<script src="https://cdn.jsdelivr.net/npm/papaparse@5.3.0/papaparse.min.js"></script>
+//cheapest gas stn from query REPLACE WITH SQL QUERY RESULT 
+let gasStn = {longitude:48.407326, latitude:-123.429773}
 
+//api key
+let tomtomKey = "wXVBX4FCpA4Bx6avVDjcG2GEZgvAo8SH"
 
-	<style>
-		html, body {
-			height: 100%;
-			margin: 0;
-		}
-		.leaflet-container {
-			height: 900px;
-			width: 900px;
-			max-width: 100%;
-			max-height: 100%;
-		}
-	</style>
+//(to use for GET) tested - returns expected json with distance, duration and polyline
+let apiRouteQuery = `https://api.tomtom.com/routing/1/calculateRoute/${geolocResult.longitude}%2C${geolocResult.latitude}%3A${gasStn.longitude}%2C${gasStn.latitude}/json?maxAlternatives=0&routeRepresentation=polyline&computeTravelTimeFor=all&routeType=shortest&traffic=false&travelMode=car&key=${tomtomKey}`
+//console.log(apiRouteQuery)
 
-	
-</head>
-<body>
-
-<div class="shape"></div>
-
-<div id="map" style="width: 400px; height: 400px; border-radius: 50%;"></div>
-
-<p id="autogeolocation"></p>
-
-<script>
+//=================================================
+//JSON returned from Tomtom REPLACE with result of GET
 let jsonText = {"formatVersion":"0.0.12","routes":[{"summary":{"lengthInMeters":8609,"travelTimeInSeconds":1287,"trafficDelayInSeconds":0,"trafficLengthInMeters":0,"departureTime":"2024-02-09T18:39:35-08:00","arrivalTime":"2024-02-09T19:01:01-08:00","noTrafficTravelTimeInSeconds":1037,"historicTrafficTravelTimeInSeconds":1287,"liveTrafficIncidentsTravelTimeInSeconds":1287},"legs":[{"summary":{"lengthInMeters":8609,"travelTimeInSeconds":1287,"trafficDelayInSeconds":0,"trafficLengthInMeters":0,"departureTime":"2024-02-09T18:39:35-08:00","arrivalTime":"2024-02-09T19:01:01-08:00","noTrafficTravelTimeInSeconds":1037,"historicTrafficTravelTimeInSeconds":1287,"liveTrafficIncidentsTravelTimeInSeconds":1287},"points":[{"latitude":48.40885,"longitude":-123.33112},{"latitude":48.40877,"longitude":-123.33162},{"latitude":48.40871,"longitude":-123.33235},{"latitude":48.40872,"longitude":-123.33252},{"latitude":48.40874,"longitude":-123.33283},{"latitude":48.40883,"longitude":-123.33333},{"latitude":48.40887,"longitude":-123.33391},{"latitude":48.40889,"longitude":-123.33421},{"latitude":48.40890,"longitude":-123.33431},{"latitude":48.40904,"longitude":-123.33487},{"latitude":48.40911,"longitude":-123.33509},{"latitude":48.40915,"longitude":-123.33514},{"latitude":48.40921,"longitude":-123.33515},{"latitude":48.40963,"longitude":-123.33515},{"latitude":48.40980,"longitude":-123.33520},{"latitude":48.40990,"longitude":-123.33532},{"latitude":48.40992,"longitude":-123.33536},{"latitude":48.41000,"longitude":-123.33552},{"latitude":48.41006,"longitude":-123.33588},{"latitude":48.41006,"longitude":-123.33599},{"latitude":48.41006,"longitude":-123.33631},{"latitude":48.41088,"longitude":-123.33631},{"latitude":48.41164,"longitude":-123.33633},{"latitude":48.41230,"longitude":-123.33635},{"latitude":48.41223,"longitude":-123.33706},{"latitude":48.41224,"longitude":-123.33775},{"latitude":48.41228,"longitude":-123.33820},{"latitude":48.41237,"longitude":-123.33881},{"latitude":48.41237,"longitude":-123.33892},{"latitude":48.41238,"longitude":-123.33918},{"latitude":48.41235,"longitude":-123.33954},{"latitude":48.41233,"longitude":-123.33970},{"latitude":48.41224,"longitude":-123.34007},{"latitude":48.41193,"longitude":-123.34126},{"latitude":48.41185,"longitude":-123.34155},{"latitude":48.41177,"longitude":-123.34187},{"latitude":48.41176,"longitude":-123.34200},{"latitude":48.41175,"longitude":-123.34203},{"latitude":48.41176,"longitude":-123.34225},{"latitude":48.41180,"longitude":-123.34255},{"latitude":48.41185,"longitude":-123.34269},{"latitude":48.41195,"longitude":-123.34296},{"latitude":48.41205,"longitude":-123.34312},{"latitude":48.41208,"longitude":-123.34322},{"latitude":48.41238,"longitude":-123.34361},{"latitude":48.41266,"longitude":-123.34398},{"latitude":48.41319,"longitude":-123.34472},{"latitude":48.41379,"longitude":-123.34554},{"latitude":48.41431,"longitude":-123.34620},{"latitude":48.41449,"longitude":-123.34645},{"latitude":48.41478,"longitude":-123.34776},{"latitude":48.41491,"longitude":-123.34829},{"latitude":48.41525,"longitude":-123.34880},{"latitude":48.41581,"longitude":-123.34963},{"latitude":48.41618,"longitude":-123.35024},{"latitude":48.41641,"longitude":-123.35083},{"latitude":48.41691,"longitude":-123.35212},{"latitude":48.41744,"longitude":-123.35351},{"latitude":48.41766,"longitude":-123.35409},{"latitude":48.41782,"longitude":-123.35449},{"latitude":48.41787,"longitude":-123.35464},{"latitude":48.41793,"longitude":-123.35488},{"latitude":48.41799,"longitude":-123.35514},{"latitude":48.41801,"longitude":-123.35537},{"latitude":48.41805,"longitude":-123.35577},{"latitude":48.41808,"longitude":-123.35603},{"latitude":48.41833,"longitude":-123.35826},{"latitude":48.41836,"longitude":-123.35854},{"latitude":48.41929,"longitude":-123.35998},{"latitude":48.41949,"longitude":-123.36030},{"latitude":48.41952,"longitude":-123.36034},{"latitude":48.41964,"longitude":-123.36040},{"latitude":48.41977,"longitude":-123.36046},{"latitude":48.41993,"longitude":-123.36053},{"latitude":48.41995,"longitude":-123.36055},{"latitude":48.41998,"longitude":-123.36058},{"latitude":48.42006,"longitude":-123.36069},{"latitude":48.42024,"longitude":-123.36098},{"latitude":48.42087,"longitude":-123.36258},{"latitude":48.42114,"longitude":-123.36309},{"latitude":48.42139,"longitude":-123.36346},{"latitude":48.42178,"longitude":-123.36404},{"latitude":48.42192,"longitude":-123.36433},{"latitude":48.42201,"longitude":-123.36470},{"latitude":48.42220,"longitude":-123.36601},{"latitude":48.42272,"longitude":-123.36757},{"latitude":48.42282,"longitude":-123.36794},{"latitude":48.42293,"longitude":-123.36833},{"latitude":48.42309,"longitude":-123.36887},{"latitude":48.42313,"longitude":-123.36899},{"latitude":48.42322,"longitude":-123.36919},{"latitude":48.42325,"longitude":-123.36924},{"latitude":48.42335,"longitude":-123.36935},{"latitude":48.42367,"longitude":-123.36947},{"latitude":48.42423,"longitude":-123.36969},{"latitude":48.42437,"longitude":-123.36973},{"latitude":48.42485,"longitude":-123.36978},{"latitude":48.42511,"longitude":-123.36981},{"latitude":48.42550,"longitude":-123.36988},{"latitude":48.42589,"longitude":-123.36994},{"latitude":48.42672,"longitude":-123.37028},{"latitude":48.42689,"longitude":-123.37033},{"latitude":48.42697,"longitude":-123.37033},{"latitude":48.42712,"longitude":-123.37033},{"latitude":48.42715,"longitude":-123.37033},{"latitude":48.42731,"longitude":-123.37027},{"latitude":48.42746,"longitude":-123.37021},{"latitude":48.42755,"longitude":-123.37017},{"latitude":48.42773,"longitude":-123.37008},{"latitude":48.42785,"longitude":-123.37002},{"latitude":48.42800,"longitude":-123.36998},{"latitude":48.42824,"longitude":-123.37021},{"latitude":48.42829,"longitude":-123.37030},{"latitude":48.42835,"longitude":-123.37044},{"latitude":48.42848,"longitude":-123.37079},{"latitude":48.42845,"longitude":-123.37114},{"latitude":48.42843,"longitude":-123.37129},{"latitude":48.42839,"longitude":-123.37156},{"latitude":48.42832,"longitude":-123.37214},{"latitude":48.42830,"longitude":-123.37234},{"latitude":48.42825,"longitude":-123.37269},{"latitude":48.42824,"longitude":-123.37280},{"latitude":48.42823,"longitude":-123.37292},{"latitude":48.42817,"longitude":-123.37336},{"latitude":48.42813,"longitude":-123.37369},{"latitude":48.42813,"longitude":-123.37387},{"latitude":48.42813,"longitude":-123.37415},{"latitude":48.42813,"longitude":-123.37428},{"latitude":48.42813,"longitude":-123.37447},{"latitude":48.42813,"longitude":-123.37459},{"latitude":48.42816,"longitude":-123.37489},{"latitude":48.42817,"longitude":-123.37504},{"latitude":48.42827,"longitude":-123.37598},{"latitude":48.42833,"longitude":-123.37646},{"latitude":48.42838,"longitude":-123.37685},{"latitude":48.42841,"longitude":-123.37716},{"latitude":48.42847,"longitude":-123.37742},{"latitude":48.42974,"longitude":-123.37999},{"latitude":48.42985,"longitude":-123.38014},{"latitude":48.43012,"longitude":-123.38063},{"latitude":48.43028,"longitude":-123.38094},{"latitude":48.43033,"longitude":-123.38109},{"latitude":48.43037,"longitude":-123.38124},{"latitude":48.43041,"longitude":-123.38155},{"latitude":48.43040,"longitude":-123.38325},{"latitude":48.43040,"longitude":-123.38472},{"latitude":48.43041,"longitude":-123.38595},{"latitude":48.43044,"longitude":-123.38714},{"latitude":48.43048,"longitude":-123.38782},{"latitude":48.43052,"longitude":-123.38825},{"latitude":48.43053,"longitude":-123.38833},{"latitude":48.43057,"longitude":-123.38882},{"latitude":48.43074,"longitude":-123.39002},{"latitude":48.43079,"longitude":-123.39043},{"latitude":48.43087,"longitude":-123.39098},{"latitude":48.43104,"longitude":-123.39208},{"latitude":48.43121,"longitude":-123.39271},{"latitude":48.43127,"longitude":-123.39290},{"latitude":48.43151,"longitude":-123.39357},{"latitude":48.43174,"longitude":-123.39414},{"latitude":48.43182,"longitude":-123.39433},{"latitude":48.43188,"longitude":-123.39454},{"latitude":48.43197,"longitude":-123.39485},{"latitude":48.43203,"longitude":-123.39534},{"latitude":48.43194,"longitude":-123.39591},{"latitude":48.43188,"longitude":-123.39635},{"latitude":48.43165,"longitude":-123.39781},{"latitude":48.43159,"longitude":-123.39798},{"latitude":48.43144,"longitude":-123.39844},{"latitude":48.43115,"longitude":-123.39935},{"latitude":48.43092,"longitude":-123.39986},{"latitude":48.43078,"longitude":-123.40017},{"latitude":48.43059,"longitude":-123.40062},{"latitude":48.43028,"longitude":-123.40121},{"latitude":48.42987,"longitude":-123.40197},{"latitude":48.42925,"longitude":-123.40311},{"latitude":48.42917,"longitude":-123.40333},{"latitude":48.42913,"longitude":-123.40361},{"latitude":48.42914,"longitude":-123.40429},{"latitude":48.42952,"longitude":-123.40644},{"latitude":48.42953,"longitude":-123.40654},{"latitude":48.42955,"longitude":-123.40665},{"latitude":48.42959,"longitude":-123.40685},{"latitude":48.42972,"longitude":-123.40799},{"latitude":48.42973,"longitude":-123.40814},{"latitude":48.42979,"longitude":-123.40857},{"latitude":48.42991,"longitude":-123.40946},{"latitude":48.42993,"longitude":-123.40960},{"latitude":48.42994,"longitude":-123.40967},{"latitude":48.42998,"longitude":-123.40972},{"latitude":48.42999,"longitude":-123.40974},{"latitude":48.43000,"longitude":-123.40978},{"latitude":48.43012,"longitude":-123.41080},{"latitude":48.43012,"longitude":-123.41086},{"latitude":48.43015,"longitude":-123.41146},{"latitude":48.43018,"longitude":-123.41243},{"latitude":48.43012,"longitude":-123.41245},{"latitude":48.42989,"longitude":-123.41250},{"latitude":48.42971,"longitude":-123.41260},{"latitude":48.42945,"longitude":-123.41277},{"latitude":48.42927,"longitude":-123.41288},{"latitude":48.42901,"longitude":-123.41303},{"latitude":48.42804,"longitude":-123.41360},{"latitude":48.42773,"longitude":-123.41378},{"latitude":48.42709,"longitude":-123.41416},{"latitude":48.42627,"longitude":-123.41463},{"latitude":48.42538,"longitude":-123.41516},{"latitude":48.42450,"longitude":-123.41567},{"latitude":48.42437,"longitude":-123.41574},{"latitude":48.42415,"longitude":-123.41585},{"latitude":48.42355,"longitude":-123.41628},{"latitude":48.42348,"longitude":-123.41632},{"latitude":48.42308,"longitude":-123.41656},{"latitude":48.42288,"longitude":-123.41678},{"latitude":48.42241,"longitude":-123.41802},{"latitude":48.42220,"longitude":-123.41842},{"latitude":48.42186,"longitude":-123.41885}]}],"sections":[{"startPointIndex":0,"endPointIndex":216,"sectionType":"TRAVEL_MODE","travelMode":"car"}]}]}
+
+//grab the points needed to make line from json
 let polylinePts = jsonText.routes["0"].legs["0"].points
 
-
-//let map = L.map('map')
-let map = L.map('map', {
-		layers: MQ.mapLayer(),
-    center: [48.407326,-123.329773],
-    //crs: L.CRS.EPSG4326,//3857,
-    zoom: 13 //TBD tie this number to react with circular button & somehow reload the map/page when pressed  
-});
-//if user allowed autogeolocation then initializeMapAndLocator works,
-//initialize 
-function initializeMapAndLocator(){
-
-	googleStreets = L.tileLayer('http://{s}.google.com/vt/lyrs=m&x={x}&y={y}&z={z}',{
-					maxZoom: 13, 
-					subdomains:['mt0','mt1','mt2','mt3']
-			}).addTo(map);
-
-	map.locate({setView: true, 
-							maxZoom: 13, 
-						});
-
-	function onLocationFound(e) {
-			var radius = e.accuracy / 2;
-			L.marker(e.latlng).addTo(map)
-					//.bindPopup("From here").openPopup(); //origin location
-			L.circle(e.latlng, radius).addTo(map);
-			console.log(e)
-	}
-
-	//replace with query output from Feda
-	let url = "https://raw.githubusercontent.com/ckats123/gas-station-locator/geoloc/leaflet-map/gas_stations.csv"
-		$.get(url, function(csvString) {
-		// Use PapaParse to convert string to array of objects
-		let data = Papa.parse(csvString, {header: true, dynamicTyping: true}).data;
-		data.sort((a,b) => b.regular_price - a.regular_price) 
-		console.log(data); //checking the data is received
-		//------------------------------------------------------
-
-		// for each row of data, make marker and add it to the map
-		//For each row, columns `lat`, `lng`, and `name` are required
-		for (let i in data) {
-			let row = data[i];
-			let marker = L.marker([row.lat, row.lng], {
-				opacity: 1
-				})
-				.addTo(map).bindPopup(`${row.name} <br> $${row.rating}/L`) //TBD change rating to price
-				//,{autoClose:false, closeOnClick:false}) //this makes everything open - can't see
-				.openPopup();
-				//marker.addTo(map);//.openPopup(); //this works on last one
-			}
-
-	});
-
-		// create polyline using json waypoints
-	for (i = 0; i < polylinePts.length - 1; i++) {
-									let Coordinate = new L.latLng(([polylinePts[i].latitude, polylinePts[i].longitude]))
-									let CoordinateB = new L.latLng(([polylinePts[i + 1].latitude, polylinePts[i + 1].longitude]))
-									var polyline = L.polyline([Coordinate, CoordinateB], {color: 'red',opacity: 0.5}).addTo(map);
-	}
-	console.log(polyline);
-	// zoom the map to the polyline
-	map.fitBounds(polyline.getBounds());
-
-	map.on('locationfound', onLocationFound);
+//========below bit needs to be with the map since it calls leaflet (L) and adds layer on "map" which must already exist
+// create polyline using json waypoints
+for (i = 0; i < polylinePts.length - 1; i++) {
+                let Coordinate = new L.latLng(([polylinePts[i].latitude, polylinePts[i].longitude]))
+                let CoordinateB = new L.latLng(([polylinePts[i + 1].latitude, polylinePts[i + 1].longitude]))
+                var polyline = L.polyline([Coordinate, CoordinateB], {color: 'red',opacity: 0.5}).addTo(map);
 }
+//console.log(polyline); //testing ok
 
-initializeMapAndLocator();
-//
-//set navigation
-function runDirection(start, end) {
-        
-        // recreating new map layer after removal
-        // map = L.map('map', {
-        //     layers: MQ.mapLayer(),
-        //     center: [35.791188, -78.636755],
-        //     zoom: 12
-        // });
-        
-        let dir = MQ.routing.directions();
-
-        dir.route({
-            locations: [
-                start,
-                end
-            ]
-        });
-    
-        CustomRouteLayer = MQ.Routing.RouteLayer.extend({
-					//custom marker can be inserted here
-        });
-        
-        map.addLayer(new CustomRouteLayer({
-            directions: dir,
-            fitBounds: true
-        })); 
-    }
-
-
-// function that runs when form submitted
-//function submitForm(event) {
-    //event.preventDefault();
-
-    // delete current map layer
-    //map.remove();
-
-    // getting form data
-    start = [48.407326,-123.329773]//document.getElementById("start").value;
-    end = [48.407326,-124.329773]//document.getElementById("destination").value;
-
-    // run directions function
-    runDirection(start, end);
-
-
-//======================
-//extraneous functions 
-
-	//check current map range in km, return result in console
-	function getRangeKM(){
-			var bounds = map.getBounds();
-
-			var width = map.distance(bounds.getNorthWest(), bounds.getNorthEast()) / 1000;
-			var height = map.distance(bounds.getNorthWest(), bounds.getSouthWest()) / 1000;
-
-			return {
-					width,
-					height
-			}
-	}
-	console.log(getRangeKM())
-
-//=====================
-////  seek permission to obtain the user's location automatically w/ getCurrentPosition(). 
-
-//	<button onclick="getLocation()">Use my device location</button>
-//A call to this method asynchronously reports on the user's current location.
-//set timeout in case there's no response to the request for permission 
-
-	// let x = document.getElementById("autogeolocation");
-
-	// const options = {
-  // 	timeout: 5000
-	// };
-
-	// function getLocation() {
-	// 	if (navigator.geolocation) {
-	// 		navigator.geolocation.getCurrentPosition(showPosition, error, options);
-	// 	} else { 
-	// 		x.innerHTML = "Geolocation is not supported by this device.";
-	// 	}
-	// }
-
-	// function error(err) {
-  // console.warn(`ERROR(${err.code}): ${err.message}`);
-	// }
-
-	// function showPosition(position) {
-	// 	x.innerHTML = "Latitude: " + position.coords.latitude + 
-	// 	"<br>Longitude: " + position.coords.longitude;
-	// }
-</script>
-
-</body>
-</html>
+// zoom the map to the polyline
+map.fitBounds(polyline.getBounds());
