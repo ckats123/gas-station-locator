@@ -1,5 +1,5 @@
 const router = require("express").Router();
-const db = require('../connection');
+const db = require('../src/db/connection.js');
 
 // Get all gas stations
 router.get("/", async (req, res) => {
