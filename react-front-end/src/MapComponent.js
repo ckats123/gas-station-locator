@@ -7,7 +7,6 @@ import './styles/MapComponent.scss';
 import 'leaflet/dist/leaflet.css';
 
 const GasStationMap = ({ panToUser, setPanToUser }) => {
-  const [map, setMap] = useState(null);
   const [gasStations, setGasStations] = useState([]);
   const [userLocation, setUserLocation] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -33,7 +32,7 @@ const GasStationMap = ({ panToUser, setPanToUser }) => {
     // Fetch gas station data from the backend API
     if (userLocation) {
       axios.get('/api/gas-stations', { params: { lat: userLocation[0], lng: userLocation[1] } })
-        .then(response => setGasStations(response.data))
+      .then(response => setGasStations(response.data))
         .catch(error => console.error('Error fetching gas stations:', error));
 
       // Send user location to the '/api/user-location' route
@@ -43,33 +42,6 @@ const GasStationMap = ({ panToUser, setPanToUser }) => {
     }
   }, [userLocation]);
 
-  useEffect(() => {
-    // Leaflet map initialization
-    if (userLocation) {
-      const leafletMap = L.map('map', {
-        center: userLocation,
-        zoom: 13,
-      });
-
-      // Add OpenStreetMap tiles to the map
-      L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        maxZoom: 30,
-        attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
-      }).addTo(leafletMap);
-
-      // Set the map state
-      setMap(leafletMap);
-    }
-  }, [userLocation]);
-
-  useEffect(() => {
-    // Update map center when userLocation changes
-    if (map && userLocation) {
-      map.setView(userLocation, map.getZoom());
-      setPanToUser(false);
-    }
-  }, [map, userLocation, panToUser]);
-
   return (
     <div id="map" style={{ height: '750px', width: '750px', position: 'relative' }}>
       {loading && (
@@ -77,7 +49,7 @@ const GasStationMap = ({ panToUser, setPanToUser }) => {
           <img src="/loading-image.gif" alt="Loading..." />
         </div>
         )}
-      {!loading && map && (
+      {!loading && (
         <MapContainer
           center={userLocation || [48.407326, -123.329773]}
           zoom={13}
@@ -97,9 +69,8 @@ const GasStationMap = ({ panToUser, setPanToUser }) => {
               icon={L.icon({
                 iconUrl: '/marker1.png',
                 iconSize: [25, 25],
-                iconAnchor: [41, 41],
+                iconAnchor: [12, 41],
                 popupAnchor: [1, -34],
-                shadowSize: [45, 45],
               })}
             >
               <Popup>
@@ -118,8 +89,8 @@ const GasStationMap = ({ panToUser, setPanToUser }) => {
           {userLocation && (
             <Marker position={userLocation} icon={L.icon({
               iconUrl: '/user-marker.png', 
-              iconSize: [25, 25],
-              iconAnchor: [12, 12],
+              iconSize: [25, 41],
+              iconAnchor: [12, 41],
               popupAnchor: [0, -10],
             })}>
               <Popup>You are here!</Popup>
