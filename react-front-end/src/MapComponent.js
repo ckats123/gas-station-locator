@@ -12,6 +12,11 @@ const GasStationMap = ({ panToUser, setPanToUser }) => {
   const [userLocation, setUserLocation] = useState(null);
   const [loading, setLoading] = useState(true);
 
+  const [closestGasStation, setClosestGasStation] = useState(null);
+  const [cheapestGasStation, setCheapestGasStation] = useState(null);
+
+  const [selectedMarker, setSelectedMarker] = useState(null);
+
   useEffect(() => {
     // Get user geolocation
     if (navigator.geolocation) {
@@ -70,32 +75,75 @@ const GasStationMap = ({ panToUser, setPanToUser }) => {
     }
   }, [map, userLocation, panToUser]);
 
-  return (
-    <div id="map" style={{ height: '750px', width: '750px', position: 'relative' }}>
-      {loading && (
-        <div className="loading-screen" style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)' }}>
-          <img src="/loading-image.gif" alt="Loading..." />
-        </div>
-        )}
-      {!loading && map && (
-        <MapContainer
-          center={userLocation || [48.407326, -123.329773]}
-          zoom={13}
-          style={{ height: '100%', width: '100%' }}
-        >
-          <TileLayer
-            url="https://tile.openstreetmap.org/{z}/{x}/{y}.png"
-            maxZoom={30}
-            attribution='&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-          />
+  useEffect(() => {
+    // Find the closest and cheapest gas stations
+    if (gasStations.length > 0) {
+      const closest = gasStations.reduce((prev, curr) => {
+        const prevDistance = L.latLng(userLocation).distanceTo(L.latLng([prev.lat, prev.lng]));
+        const currDistance = L.latLng(userLocation).distanceTo(L.latLng([curr.lat, curr.lng]));
+        return prevDistance < currDistance ? prev : curr;
+      });
 
-          {/* Render markers based on gas station data */}
-          {gasStations.map(station => (
+      const cheapest = gasStations.reduce((prev, curr) => {
+        return prev.regular_price < curr.regular_price ? prev : curr;
+      });
+
+      setClosestGasStation(closest);
+      setCheapestGasStation(cheapest);
+    }
+  }, [gasStations, userLocation]);
+
+  useEffect(() => {
+    // Find the closest and cheapest gas stations
+    if (gasStations.length > 0) {
+      const closest = gasStations.reduce((prev, curr) => {
+        const prevDistance = L.latLng(userLocation).distanceTo(L.latLng([prev.lat, prev.lng]));
+        const currDistance = L.latLng(userLocation).distanceTo(L.latLng([curr.lat, curr.lng]));
+        return prevDistance < currDistance ? prev : curr;
+      });
+  
+      const cheapest = gasStations.reduce((prev, curr) => {
+        return prev.regular_price < curr.regular_price ? prev : curr;
+      });
+    }
+  }, [gasStations, userLocation]);
+  
+
+return (
+  <div id="map" style={{ height: '750px', width: '750px', position: 'relative' }}>
+    {loading && (
+      <div className="loading-screen" style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)' }}>
+        <img src="/loading-image.gif" alt="Loading..." />
+      </div>
+    )}
+    {!loading && map && closestGasStation && cheapestGasStation && (
+      <MapContainer
+        center={userLocation || [48.407326, -123.329773]}
+        zoom={13}
+        style={{ height: '100%', width: '100%' }}
+      >
+        <TileLayer
+          url="https://tile.openstreetmap.org/{z}/{x}/{y}.png"
+          maxZoom={30}
+          attribution='&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+        />
+
+        {/* Render markers based on gas station data */}
+        {gasStations.map(station => {
+
+          const iconUrl =
+            (selectedMarker === 'closest' && station === closestGasStation) ? '/closest-marker.png' :
+            (selectedMarker === 'cheapest' && station === cheapestGasStation) ? '/cheapest-marker.png' :
+            '/marker1.png';
+
+            console.log(cheapestGasStation);
+            console.log(closestGasStation);
+          return (
             <Marker
               key={station.id}
               position={[station.lat, station.lng]}
               icon={L.icon({
-                iconUrl: '/marker1.png',
+                iconUrl,
                 iconSize: [25, 25],
                 iconAnchor: [41, 41],
                 popupAnchor: [1, -34],
@@ -112,23 +160,76 @@ const GasStationMap = ({ panToUser, setPanToUser }) => {
                 </div>
               </Popup>
             </Marker>
-          ))}
+          );
+        })}
 
-          {/* Marker for user location */}
-          {userLocation && (
-            <Marker position={userLocation} icon={L.icon({
-              iconUrl: '/user-marker.png', 
-              iconSize: [25, 25],
-              iconAnchor: [12, 12],
-              popupAnchor: [0, -10],
-            })}>
-              <Popup>You are here!</Popup>
-            </Marker>
-          )}
-        </MapContainer>
-      )}
-    </div>
-  );
+        {/* Marker for user location */}
+        {userLocation && (
+          <Marker position={userLocation} icon={L.icon({
+            iconUrl: '/user-marker.png',
+            iconSize: [25, 25],
+            iconAnchor: [12, 12],
+            popupAnchor: [0, -10],
+          })}>
+            <Popup>You are here!</Popup>
+          </Marker>
+        )}
+
+        {/* Marker for the closest gas station */}
+        {closestGasStation && (
+          <Marker
+            position={[closestGasStation.lat, closestGasStation.lng]}
+            icon={L.icon({
+              iconUrl: '/marker5.png',
+              iconSize: [35, 35],
+              iconAnchor: [42, 42],
+              popupAnchor: [1, -34],
+              shadowSize: [60, 60],
+            })}
+            onClick={() => setSelectedMarker('closest')}
+          >
+            <Popup>
+              <div>
+                <h2>{closestGasStation.name}</h2>
+                <p>Regular: ${closestGasStation.regular_price}/L</p>
+                <p>Premium: ${closestGasStation.premium_price}/L</p>
+                <p>Diesel: ${closestGasStation.diesel_price}/L</p>
+                <p>Rating: {closestGasStation.rating}</p>
+                <p>Closest gas station</p>
+              </div>
+            </Popup>
+          </Marker>
+        )}
+
+        {/* Marker for the cheapest gas station */}
+        {cheapestGasStation && (
+          <Marker
+            position={[cheapestGasStation.lat, cheapestGasStation.lng]}
+            icon={L.icon({
+              iconUrl: '/marker4.png',
+              iconSize: [35, 35],
+              iconAnchor: [42, 42],
+              popupAnchor: [1, -34],
+              shadowSize: [45, 45],
+            })}
+            onClick={() => setSelectedMarker('cheapest')}
+          >
+            <Popup>
+              <div>
+                <h2>{cheapestGasStation.name}</h2>
+                <p>Regular: ${cheapestGasStation.regular_price}/L</p>
+                <p>Premium: ${cheapestGasStation.premium_price}/L</p>
+                <p>Diesel: ${cheapestGasStation.diesel_price}/L</p>
+                <p>Rating: {cheapestGasStation.rating}</p>
+                <p>Cheapest gas station</p>
+              </div>
+            </Popup>
+          </Marker>
+        )}
+      </MapContainer>
+    )}
+  </div>
+);
 };
 
 export default GasStationMap;
