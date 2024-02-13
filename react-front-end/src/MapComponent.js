@@ -6,8 +6,9 @@ import axios from 'axios';
 import './styles/MapComponent.scss';
 import 'leaflet/dist/leaflet.css';
 
-const GasStationMap = ({ panToUser, setPanToUser }) => {
-  const [gasStations, setGasStations] = useState([]);
+const GasStationMap = ({ panToUser, setPanToUser, gasStations, setGasStations  }) => {
+  const [map, setMap] = useState(null);
+  //const [gasStations, setGasStations] = useState([]);
   const [userLocation, setUserLocation] = useState(null);
 
   const [userPath, setUserPath] = useState([]);
@@ -40,16 +41,9 @@ const GasStationMap = ({ panToUser, setPanToUser }) => {
 useEffect(() => {
   if (userLocation) {
     // Fetch gas station data from the backend API
-<<<<<<< HEAD
-    if (userLocation) {
-      axios.get('/api/gas-stations', { params: { lat: userLocation[0], lng: userLocation[1] } })
-      .then(response => setGasStations(response.data))
-        .catch(error => console.error('Error fetching gas stations:', error));
-=======
     axios.get('/api/gas-stations', { params: { lat: userLocation[0], lng: userLocation[1] } })
       .then(response => setGasStations(response.data))
       .catch(error => console.error('Error fetching gas stations:', error));
->>>>>>> origin
 
     // Send user location to the '/api/user-location' route
     axios.post('/api/user-location', { latitude: userLocation[0], longitude: userLocation[1] })
@@ -58,26 +52,6 @@ useEffect(() => {
   }
 }, [userLocation]);
 
-<<<<<<< HEAD
-  return (
-    <div id="map" style={{ height: '750px', width: '750px', position: 'relative' }}>
-      {loading && (
-        <div className="loading-screen" style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)' }}>
-          <img src="/loading-image.gif" alt="Loading..." />
-        </div>
-        )}
-      {!loading && (
-        <MapContainer
-          center={userLocation || [48.407326, -123.329773]}
-          zoom={13}
-          style={{ height: '100%', width: '100%' }}
-        >
-          <TileLayer
-            url="https://tile.openstreetmap.org/{z}/{x}/{y}.png"
-            maxZoom={30}
-            attribution='&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-          />
-=======
   useEffect(() => {
     // Leaflet map initialization
     if (userLocation) {
@@ -146,7 +120,6 @@ useEffect(() => {
         const currDistance = L.latLng(userLocation).distanceTo(L.latLng([curr.lat, curr.lng]));
         return prevDistance < currDistance ? prev : curr;
       });
->>>>>>> origin
 
       const cheapest = gasStations.reduce((prev, curr) => {
         return prev.regular_price < curr.regular_price ? prev : curr;
@@ -206,13 +179,15 @@ return (
               icon={L.icon({
                 iconUrl,
                 iconSize: [25, 25],
-                iconAnchor: [12, 41],
+                iconAnchor: [41, 41],
                 popupAnchor: [1, -34],
+                shadowSize: [45, 45],
               })}
             >
               <Popup>
                 <div>
                   <h2>{station.name}</h2>
+                  <p>Address: {station.vicinity}</p>
                   <p>Regular: ${station.regular_price}/L</p>
                   <p>Premium: ${station.premium_price}/L</p>
                   <p>Diesel: ${station.diesel_price}/L</p>
@@ -221,23 +196,6 @@ return (
               </Popup>
             </Marker>
 
-<<<<<<< HEAD
-          {/* Marker for user location */}
-          {userLocation && (
-            <Marker position={userLocation} icon={L.icon({
-              iconUrl: '/user-marker.png', 
-              iconSize: [25, 41],
-              iconAnchor: [12, 41],
-              popupAnchor: [0, -10],
-            })}>
-              <Popup>You are here!</Popup>
-            </Marker>
-          )}
-        </MapContainer>
-      )}
-    </div>
-  );
-=======
           );
         })}
 
@@ -269,6 +227,7 @@ return (
             <Popup>
               <div>
                 <h2>{closestGasStation.name}</h2>
+                <p>Address: {closestGasStation.vicinity}</p>
                 <p>Regular: ${closestGasStation.regular_price}/L</p>
                 <p>Premium: ${closestGasStation.premium_price}/L</p>
                 <p>Diesel: ${closestGasStation.diesel_price}/L</p>
@@ -295,6 +254,7 @@ return (
             <Popup>
               <div>
                 <h2>{cheapestGasStation.name}</h2>
+                <p>Address: {cheapestGasStation.vicinity}</p>
                 <p>Regular: ${cheapestGasStation.regular_price}/L</p>
                 <p>Premium: ${cheapestGasStation.premium_price}/L</p>
                 <p>Diesel: ${cheapestGasStation.diesel_price}/L</p>
@@ -309,7 +269,6 @@ return (
   </div>
 );
 
->>>>>>> origin
 };
 
 export default GasStationMap;
