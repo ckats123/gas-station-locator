@@ -10,7 +10,7 @@ import SearchIcon from "@mui/icons-material/Search";
 const TopNavigationBar = ({setGasStations}) => {
   const navigate = useNavigate();
   const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
-  const userName = localStorage.getItem("userName");
+  const userEmail = localStorage.getItem("userEmail"); // Retrieve user's email
   const [searchQuery, setSearchQuery] = useState("");
  // const [gasStations, setGasStations] = useState([]); 
   const [panToUser, setPanToUser] = useState(false); 
@@ -86,7 +86,7 @@ const TopNavigationBar = ({setGasStations}) => {
       <div className="center-content">
         {isLoggedIn ? (
           <>
-            <span>Hello, {userName}</span>
+            <span>Hello, {userEmail}</span>
             <span onClick={handleFavIconClick} style={{ cursor: "pointer" }}>
               <FavIcon selected="true" />
             </span>

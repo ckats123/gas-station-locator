@@ -54,7 +54,7 @@ useEffect(() => {
 
   useEffect(() => {
     // Leaflet map initialization
-    if (userLocation) {
+    if (userLocation && gasStations.length > 0) {
       const leafletMap = L.map('map', {
         center: userLocation,
         zoom: 13,
@@ -102,7 +102,7 @@ useEffect(() => {
       // Set the map state
       setMap(leafletMap);
     }
-  }, [userLocation]);
+  }, [userLocation, gasStations]);
 
   useEffect(() => {
     // Update map center when userLocation or gasStations change
