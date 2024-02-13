@@ -27,3 +27,27 @@
     width: 100%; /* Adjust width as needed */
     height: 100vh; /* Use viewport height to make it center vertically */
   }
+  .marker {
+    background-image: url('../../public/marker1.png');
+    background-size: cover;
+  }
+  
+  /* Style for the user location marker */
+  .user-marker {
+    background-image: url('../../public/user-marker.png');
+    background-size: cover;
+  }
+  
+  /* Style for the closest marker */
+  .closest-marker {
+    background-color: #ff0000; /* Red background for emphasis */
+    border: 2px solid #ffffff; /* White border for visibility */
+    border-radius: 50%; /* Circular shape */
+  }
+  
+  /* Style for the cheapest marker */
+  .cheapest-marker {
+    background-color: #00ff00; /* Green background for emphasis */
+    border: 2px solid #ffffff; /* White border for visibility */
+    border-radius: 50%; /* Circular shape */
+  }
