@@ -1,0 +1,15 @@
+// favorite.scss is the style file for the favorites page
+
+.favorites {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.favorites h1 {
+  font-size: 2.5em;
+  margin-bottom: 20px;
+}

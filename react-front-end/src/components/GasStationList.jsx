@@ -1,32 +1,42 @@
-// GasStationList.jsx
+// src/components/GasStationList.jsx
+// list of all gas stations nearby
 
-import React, { Component } from "react";
-import { connect } from "react-redux";
-import { getGasStations } from "../actions/gasStationActions";
+import React, { useState, useEffect } from "react";
 import GasStation from "./GasStation";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
-class GasStationList extends Component {
-  componentDidMount() {
-    this.props.getGasStations();
-  }
+const GasStationList = () => {
+  const [gasStations, setGasStations] = useState([]);
+  const navigate = useNavigate();
 
-  render() {
-    const { gasStations } = this.props.gasStation;
-    return (
+  useEffect(() => {
+    const getGasStations = async () => {
+      try {
+        const res = await axios.get("/gas_stations", {
+          headers: { token: localStorage.token },
+        });
+        setGasStations(res.data);
+      } catch (err) {
+        console.error(err.message);
+      }
+    };
+    getGasStations();
+  }, []);
+
+  return (
+    <div>
+      <h1>Gas Stations</h1>
       <div>
-        <h1>Gas Stations</h1>
         {gasStations.map((gasStation) => (
-          <GasStation key={gasStation.id} gasStation={gasStation} />
+          <GasStation
+            key={gasStation.gas_station_id}
+            gasStation={gasStation}
+          />
         ))}
       </div>
-    );
-  }
-}
+    </div>
+  );
+};
 
-const mapStateToProps = (state) => ({
-  gasStation: state.gasStation,
-});
-
-export default connect(mapStateToProps, { getGasStations })(
-  GasStationList
-);
+export default GasStationList;
