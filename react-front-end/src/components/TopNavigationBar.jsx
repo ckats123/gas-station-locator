@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import axios from "axios"; 
 import "../styles/TopNavigationBar.scss";
 import FavIcon from "../components/FavIcon";
 import MenuIcon from "@mui/icons-material/Menu";
@@ -11,6 +12,8 @@ const TopNavigationBar = () => {
   const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
   const userName = localStorage.getItem("userName");
   const [searchQuery, setSearchQuery] = useState("");
+  const [gasStations, setGasStations] = useState([]); 
+  const [panToUser, setPanToUser] = useState(false); 
 
   const handleFavIconClick = () => {
     navigate("/favorites");
@@ -50,6 +53,18 @@ const TopNavigationBar = () => {
   const handleSearch = () => {
     console.log("Performing search for:", searchQuery);
     // Perform the search logic and update the map component
+    axios.get(`/api/gas-stations/search?keyword=${searchQuery}`)
+    .then(response => {
+      // Pass the search results to the map component
+      setGasStations(response.data);
+      console.log(response.data)
+
+      // Update the map center to the user's location
+      setPanToUser(true);
+    })
+    .catch(error => {
+      console.error('Error searching gas stations:', error);
+    });
   };
 
   return (
@@ -110,6 +125,7 @@ const TopNavigationBar = () => {
         )}
       </div>
     </nav>
+    
   );
 };
 
