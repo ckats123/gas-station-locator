@@ -6,9 +6,9 @@ import axios from 'axios';
 import './styles/MapComponent.scss';
 import 'leaflet/dist/leaflet.css';
 
-const GasStationMap = ({ panToUser, setPanToUser }) => {
+const GasStationMap = ({ panToUser, setPanToUser, gasStations, setGasStations  }) => {
   const [map, setMap] = useState(null);
-  const [gasStations, setGasStations] = useState([]);
+  //const [gasStations, setGasStations] = useState([]);
   const [userLocation, setUserLocation] = useState(null);
 
   const [userPath, setUserPath] = useState([]);
@@ -187,6 +187,7 @@ return (
               <Popup>
                 <div>
                   <h2>{station.name}</h2>
+                  <p>Address: {station.vicinity}</p>
                   <p>Regular: ${station.regular_price}/L</p>
                   <p>Premium: ${station.premium_price}/L</p>
                   <p>Diesel: ${station.diesel_price}/L</p>
@@ -226,6 +227,7 @@ return (
             <Popup>
               <div>
                 <h2>{closestGasStation.name}</h2>
+                <p>Address: {closestGasStation.vicinity}</p>
                 <p>Regular: ${closestGasStation.regular_price}/L</p>
                 <p>Premium: ${closestGasStation.premium_price}/L</p>
                 <p>Diesel: ${closestGasStation.diesel_price}/L</p>
@@ -252,6 +254,7 @@ return (
             <Popup>
               <div>
                 <h2>{cheapestGasStation.name}</h2>
+                <p>Address: {cheapestGasStation.vicinity}</p>
                 <p>Regular: ${cheapestGasStation.regular_price}/L</p>
                 <p>Premium: ${cheapestGasStation.premium_price}/L</p>
                 <p>Diesel: ${cheapestGasStation.diesel_price}/L</p>

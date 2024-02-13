@@ -3,7 +3,7 @@ import { Route } from 'react-router-dom';
 import MapComponent from '../MapComponent';
 
 // Define the Home component
-const Home = () => {
+const Home = ({gasStations, setGasStations}) => {
   const [panToUser, setPanToUser] = useState(false);
 
   const handleNavigateMeClick = () => {
@@ -15,7 +15,7 @@ const Home = () => {
       <h1>Welcome to the Home Page</h1>
       <p>This is your home page content.</p>
       <button onClick={handleNavigateMeClick}>NavigateMe</button>
-      <MapComponent panToUser={panToUser} setPanToUser={setPanToUser} />
+      <MapComponent gasStations= {gasStations} setGasStations = {setGasStations} panToUser={panToUser} setPanToUser={setPanToUser} />
     </div>
   );
 };

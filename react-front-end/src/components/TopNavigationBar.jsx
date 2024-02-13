@@ -7,12 +7,12 @@ import MenuIcon from "@mui/icons-material/Menu";
 import { Menu, MenuItem, InputBase, IconButton } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 
-const TopNavigationBar = () => {
+const TopNavigationBar = ({setGasStations}) => {
   const navigate = useNavigate();
   const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
   const userName = localStorage.getItem("userName");
   const [searchQuery, setSearchQuery] = useState("");
-  const [gasStations, setGasStations] = useState([]); 
+ // const [gasStations, setGasStations] = useState([]); 
   const [panToUser, setPanToUser] = useState(false); 
 
   const handleFavIconClick = () => {
