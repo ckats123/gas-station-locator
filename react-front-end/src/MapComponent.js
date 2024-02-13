@@ -34,19 +34,19 @@ const GasStationMap = ({ panToUser, setPanToUser }) => {
     }
   }, []);
 
-  useEffect(() => {
+useEffect(() => {
+  if (userLocation) {
     // Fetch gas station data from the backend API
-    if (userLocation) {
-      axios.get('/api/gas-stations', { params: { lat: userLocation[0], lng: userLocation[1] } })
-        .then(response => setGasStations(response.data))
-        .catch(error => console.error('Error fetching gas stations:', error));
+    axios.get('/api/gas-stations', { params: { lat: userLocation[0], lng: userLocation[1] } })
+      .then(response => setGasStations(response.data))
+      .catch(error => console.error('Error fetching gas stations:', error));
 
-      // Send user location to the '/api/user-location' route
-      axios.post('/api/user-location', { latitude: userLocation[0], longitude: userLocation[1] })
-        .then(response => console.log('User location sent to backend:', response.data))
-        .catch(error => console.error('Error sending user location to backend:', error));
-    }
-  }, [userLocation]);
+    // Send user location to the '/api/user-location' route
+    axios.post('/api/user-location', { latitude: userLocation[0], longitude: userLocation[1] })
+      .then(response => console.log('User location sent to backend:', response.data))
+      .catch(error => console.error('Error sending user location to backend:', error));
+  }
+}, [userLocation]);
 
   useEffect(() => {
     // Leaflet map initialization
@@ -68,12 +68,12 @@ const GasStationMap = ({ panToUser, setPanToUser }) => {
   }, [userLocation]);
 
   useEffect(() => {
-    // Update map center when userLocation changes
+    // Update map center when userLocation or gasStations change
     if (map && userLocation) {
       map.setView(userLocation, map.getZoom());
       setPanToUser(false);
     }
-  }, [map, userLocation, panToUser]);
+  }, [map, userLocation, panToUser, gasStations]);
 
   useEffect(() => {
     // Find the closest and cheapest gas stations
@@ -135,9 +135,6 @@ return (
             (selectedMarker === 'closest' && station === closestGasStation) ? '/closest-marker.png' :
             (selectedMarker === 'cheapest' && station === cheapestGasStation) ? '/cheapest-marker.png' :
             '/marker1.png';
-
-            console.log(cheapestGasStation);
-            console.log(closestGasStation);
           return (
             <Marker
               key={station.id}

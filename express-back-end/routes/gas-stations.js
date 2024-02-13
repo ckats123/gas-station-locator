@@ -38,6 +38,41 @@ router.get("/", async (req, res) => {
   }
 });
 
+// Search for gas stations
+router.get("/search", async (req, res) => {
+  try {
+    const { keyword } = req.query;
+
+    const searchQuery = `
+      SELECT
+        gs.name,
+        gs.vicinity,
+        gs.payment_method,
+        gs.fuel_type,
+        l.lat,
+        l.lng,
+        gp.regular_price,
+        gp.premium_price,
+        gp.diesel_price,
+        r.rating
+      FROM gas_stations gs
+      JOIN locations l ON gs.id = l.gas_station_id
+      LEFT JOIN gas_prices gp ON gs.id = gp.gas_station_id
+      LEFT JOIN reviews r ON gs.id = r.gas_station_id
+      WHERE LOWER(gs.name) LIKE LOWER($1)
+        OR LOWER(l.street) LIKE LOWER($1)
+        OR LOWER(l.city) LIKE LOWER($1)
+        OR LOWER(l.province) LIKE LOWER($1)
+        OR LOWER(l.postal_code) LIKE LOWER($1);
+    `;
+
+    const searchResults = await db.query(searchQuery, [`%${keyword}%`]);
+    res.json(searchResults.rows);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Server error");
+  }
+});
 
 // Get a gas station
 router.get("/:id", async (req, res) => {
