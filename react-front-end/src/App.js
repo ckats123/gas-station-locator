@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import { Route, Routes, useNavigate } from 'react-router-dom';
 import TopNavigationBar from './components/TopNavigationBar';
 import Home from './components/Home';
@@ -10,13 +10,13 @@ import Search from "./components/Search";
 import WelcomePage from './components/WelcomePage';
 
 function App() {
-
+  const [gasStations, setGasStations] = useState([]); 
   return (
     <div className="App">
-      <TopNavigationBar />
+      <TopNavigationBar setGasStations = {setGasStations} />
       <Routes>
         <Route path="/" element={<WelcomePage />} /> {/* Render WelcomePage for the root route */}
-        <Route path="/Home" element={<Home />} />
+        <Route path="/Home" element={<Home gasStations= {gasStations} setGasStations = {setGasStations}/>} />
         <Route path="/login" element={<LoginWithNavigate />} />        
         <Route path="/register" element={<Register />} />
         <Route path="/Search" element={<Search />} />
