@@ -17,6 +17,7 @@ const Home = ({ gasStations, setGasStations }) => {
 
   return (
     <div className="home-container">
+    <h1>We Help You Find The Best Gas Prices Near You!</h1>
       <MapComponent gasStations={gasStations} setGasStations={setGasStations} panToUser={panToUser} setPanToUser={setPanToUser} />
       <div className="gas-station-info">
         {logos.map((logo, index) => (
