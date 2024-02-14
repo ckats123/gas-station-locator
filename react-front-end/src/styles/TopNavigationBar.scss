@@ -30,25 +30,7 @@
     border-color: black;
   }
 
-  .navigation-items {
-    display: flex;
-    align-items: center;
-
-    a {
-      text-decoration: none;
-      color: #fff;
-      margin: 0 15px; /* Add spacing between navigation links */
-      font-weight: bold;
-      font-size: 18px;
-      letter-spacing: 1px;
-      text-transform: lowercase;
-      transition: color 0.3s ease; /* Smooth color transition on hover */
-
-      &:hover {
-        color: #b61f36; /* Change text color on hover */
-      }
-    }
-
+  
     span {
       margin-right: 15px;
       font-weight: bold;
@@ -56,40 +38,7 @@
       letter-spacing: 1px;
       text-transform: lowercase;
     }
-
-    button {
-      background-color: #ff69b4; /* Button background color */
-      color: #fff; /* Button text color */
-      border: none;
-      padding: 5px 15px;
-      border-radius: 25px;
-      cursor: pointer;
-      font-weight: bold;
-      font-size: 16px;
-      letter-spacing: 1px;
-      text-transform: lowercase;
-      transition: background-color 0.3s ease; /* Smooth background color transition on hover */
-
-      &:hover {
-        background-color: #6a0f1c; /* Change button background color on hover */
-      }
-    }
-  }
-
-  .ribbon {
-    position: absolute;
-    top: 0;
-    left: -10px;
-    background-color: #6a0f1c; /* Ribbon background color */
-    color: #fff; /* Ribbon text color */
-    padding: 5px 20px;
-    border-top-right-radius: 50px; /* Rounded top-right corner */
-    border-bottom-right-radius: 50px; /* Rounded bottom-right corner */
-    transform: rotate(-45deg); /* Rotate the ribbon */
-    font-weight: bold;
-    font-size: 18px;
-    letter-spacing: 1px;
-  }
+    
 }
 
 /* Add margin to create space between components */
