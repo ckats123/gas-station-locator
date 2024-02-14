@@ -1,11 +1,15 @@
 const express = require("express");
 const app = express();
 const cors = require("cors");
+<<<<<<< Updated upstream
 
 // Middleware
 app.use(express.json());
 app.use(cors());
 
+=======
+const app = express()
+>>>>>>> Stashed changes
 // Routes
 const gasStationRoute = require("./routes/gas-stations");
 const userLocationRoute = require("./routes/user-location");
