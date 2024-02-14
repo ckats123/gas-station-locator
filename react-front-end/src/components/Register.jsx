@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import { TextField, Button, Stack } from '@mui/material';
 
+import "../styles/Register.scss";
 const Register = () => {
-  const navigate = useNavigate();  // Use the useNavigate hook
+  const navigate = useNavigate(); // Use the useNavigate hook
 
   const [formData, setFormData] = useState({
     name: '',
@@ -42,77 +42,66 @@ const Register = () => {
   };
 
   return (
-    <React.Fragment>
-      <h2>Register</h2>
+    <div className="register-container">
+     
       <form onSubmit={handleSubmit}>
-        <Stack spacing={2} direction="row" sx={{ marginBottom: 4 }}>
-          <TextField
+      <h2>Register</h2>
+        <div className="form-group">
+          <input
             type="text"
-            variant="outlined"
-            color="secondary"
-            label="Name"
+            className="input-field"
+            placeholder="Name"
             name="name"
             onChange={handleChange}
             value={formData.name}
-            fullWidth
             required
           />
-          <TextField
+          <input
             type="text"
-            variant="outlined"
-            color="secondary"
-            label="Last Name"
+            className="input-field"
+            placeholder="Last Name"
             name="lastname"
             onChange={handleChange}
             value={formData.lastname}
-            fullWidth
             required
           />
-        </Stack>
-        <TextField
+        </div>
+        <input
           type="text"
-          variant="outlined"
-          color="secondary"
-          label="Username"
+          className="input-field"
+          placeholder="Username"
           name="username"
           onChange={handleChange}
           value={formData.username}
-          fullWidth
           required
-          sx={{ mb: 4 }}
         />
-        <TextField
+        <input
           type="email"
-          variant="outlined"
-          color="secondary"
-          label="Email"
+          className="input-field"
+          placeholder="Email"
           name="email"
           onChange={handleChange}
           value={formData.email}
-          fullWidth
           required
-          sx={{ mb: 4 }}
         />
-        <TextField
+        <input
           type="password"
-          variant="outlined"
-          color="secondary"
-          label="Password"
+          className="input-field"
+          placeholder="Password"
           name="password"
           onChange={handleChange}
           value={formData.password}
           required
-          fullWidth
-          sx={{ mb: 4 }}
         />
-        <Button variant="outlined" color="secondary" type="submit">
+        <button className="submit-button" type="submit">
           Register
-        </Button>
-      </form>
+        </button>
+      
       <p>
-      Already have an account? <Link to="/login">Login here</Link>
+        Already have an account? <Link to="/login">Login here</Link>
       </p>
-    </React.Fragment>
+      </form>
+    </div>
   );
 };
 

@@ -30,4 +30,3 @@ const LoginWithNavigate = () => {
   return <Login navigate={navigate} />;
 }
 export default App;
-

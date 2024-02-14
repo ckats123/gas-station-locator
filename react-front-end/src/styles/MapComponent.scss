@@ -18,36 +18,34 @@
     margin: auto;
   }
   
-  /* Add this if your map is within a specific container other than body,
-     and you want that container to be centered as well. */
-  .mapContainer {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 100%; /* Adjust width as needed */
-    height: 100vh; /* Use viewport height to make it center vertically */
-  }
-  .marker {
-    background-image: url('../../public/marker1.png');
-    background-size: cover;
-  }
-  
-  /* Style for the user location marker */
-  .user-marker {
-    background-image: url('../../public/user-marker.png');
-    background-size: cover;
-  }
-  
-  /* Style for the closest marker */
-  .closest-marker {
-    background-color: #ff0000; /* Red background for emphasis */
-    border: 2px solid #ffffff; /* White border for visibility */
-    border-radius: 50%; /* Circular shape */
-  }
-  
-  /* Style for the cheapest marker */
-  .cheapest-marker {
-    background-color: #00ff00; /* Green background for emphasis */
-    border: 2px solid #ffffff; /* White border for visibility */
-    border-radius: 50%; /* Circular shape */
-  }
+  // Loading screen styles
+.loading-screen {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+/* Dropdown styles */
+select {
+  padding: 10px;
+  margin: 10px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+/* Add some styling for the dropdown container */
+.dropdown-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: 20px;
+}
+
+/* Add some spacing between the dropdowns */
+select + select {
+  margin-top: 10px;
+}

@@ -2,26 +2,18 @@ import React, { useState } from 'react';
 import { Route } from 'react-router-dom';
 import MapComponent from '../MapComponent';
 
+import '../styles/Home.scss'
+
 // Define the Home component
 const Home = ({gasStations, setGasStations}) => {
-  const [panToUser, setPanToUser] = useState(false);
-
-  const handleNavigateMeClick = () => {
-    setPanToUser(true);
-  };
 
   return (
     <div>
       <h1>Welcome to the Home Page</h1>
-      <p>This is your home page content.</p>
-      <button onClick={handleNavigateMeClick}>NavigateMe</button>
-      <MapComponent gasStations= {gasStations} setGasStations = {setGasStations} panToUser={panToUser} setPanToUser={setPanToUser} />
+      <MapComponent gasStations= {gasStations} setGasStations = {setGasStations} />
     </div>
   );
 };
 
 // Export the Home component
 export default Home;
-
-// Define the route for '/Home' in your Routes component
-<Route path="/Home" element={<Home />} />

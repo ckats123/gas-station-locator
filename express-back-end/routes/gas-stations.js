@@ -6,7 +6,10 @@ const authorization = require("../middleware/authorization");
 // Get all gas stations within a certain distance of the user's location
 router.get("/", async (req, res) => {
   try {
-    const { lat, lng } = req.query;
+    const { lat, lng, paymentMethod } = req.query;
+
+    // Trim the user-selected paymentMethod
+    const trimmedPaymentMethod = paymentMethod ? paymentMethod.trim() : null;
 
     const query = `
       SELECT
@@ -27,16 +30,22 @@ router.get("/", async (req, res) => {
       WHERE ST_DistanceSphere(
         ST_MakePoint(l.lng, l.lat),
         ST_MakePoint($1, $2)
-      ) < 10000;
+      ) < 10000
+      ${trimmedPaymentMethod ? 'AND LOWER(gs.payment_method) LIKE $3' : ''}
     `;
 
-    const gasStations = await db.query(query, [lng, lat]);
+    const params = [lng, lat];
+
+    if (trimmedPaymentMethod) params.push(`%${trimmedPaymentMethod.toLowerCase()}%`);
+
+    const gasStations = await db.query(query, params);
     res.json(gasStations.rows);
   } catch (err) {
     console.error(err.message);
     res.status(500).send("Server error");
   }
 });
+
 
 // Search for gas stations
 router.get("/search", async (req, res) => {
