@@ -8,7 +8,7 @@ import '../styles/Home.scss'
 const Home = ({gasStations, setGasStations}) => {
 
   return (
-    <div>
+    <div className='Home'>
       <h1>Welcome to the Home Page</h1>
       <MapComponent gasStations= {gasStations} setGasStations = {setGasStations} />
     </div>

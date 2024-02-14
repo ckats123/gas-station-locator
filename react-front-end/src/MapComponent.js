@@ -131,9 +131,15 @@ const GasStationMap = ({ gasStations, setGasStations }) => {
 
   // Render the component
   return (
-    <div style={{ display: 'flex' }}>
-      {/* Drop-down for Payment Method */}
-      <select
+    <div className='Map-container' style={{ display: 'flex' }}>
+      {/* Drop-down menus*/}
+      
+      <div className='dropdown-menus'>
+        <div className='empty'>
+
+        </div>
+      <div className='dropdown'>
+        <select
         onChange={(e) => setSelectedPaymentMethod(e.target.value)}
         value={selectedPaymentMethod}
       >
@@ -143,15 +149,17 @@ const GasStationMap = ({ gasStations, setGasStations }) => {
         <option value="cash">Cash</option>
         <option value="crypto">Crypto</option>
       </select>
-
-      {/* Drop-down for Fuel Type */}
+      </div>
+      <div className='dropdown'>
       <select>
         <option value="">Select Fuel Type</option>
         <option value="gasoline">Gasoline</option>
         <option value="diesel">Diesel</option>
       </select>
+      </div>
+    </div>
 
-    <div id="map" style={{ height: '750px', width: '750px', position: 'relative' }}>
+    <div className='map' id="map" style={{ height: '750px', width: '750px', position: 'relative' }}>
       {loading && (
         <div className="loading-screen" style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)' }}>
           <img src="/loading-image.gif" alt="Loading..." />
@@ -267,6 +275,9 @@ const GasStationMap = ({ gasStations, setGasStations }) => {
         </MapContainer>
       )}
     </div>
+      <div className='empty-space'>
+          {/* Empty for now */}
+        </div>
     </div>
   );
 };
