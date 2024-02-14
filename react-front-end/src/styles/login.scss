@@ -1,10 +1,103 @@
-.text-primary {
-    color: #c71212; 
-}
-
-.submit-button {
-    background-color: #6e1010; 
-    &:hover {
-        background-color: darken(#6e1010, 10%); 
+body {
+    margin: 0;
+    padding: 0;
+  }
+  
+  #root {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+  }
+  
+  .login-container {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background: url('../../public/background-image2.png') center/cover no-repeat; 
+    //filter: blur(2px);
+  
+    &:before {
+      content: "";
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      //background: rgba(0, 0, 0, 0.36); /* Add a semi-transparent overlay for better readability */
     }
-}
+  
+    .form-container {
+      position: relative;
+      z-index: 1; /* Ensure the form container is above the background */
+  
+      padding: 40px;
+      width: 100%;
+      max-width: 400px;
+      background-color: #ffffffc2;
+      border-radius: 8px;
+      box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.2);
+  
+      h2 {
+        font-size: 24px;
+        margin-bottom: 20px;
+        color: #333;
+        text-align: center;
+      }
+  
+      form {
+        display: flex;
+        flex-direction: column;
+  
+        label {
+          margin-bottom: 8px;
+          color: #333;
+          font-weight: bold;
+          font-size: 16px;
+        }
+  
+        input {
+          margin-bottom: 20px;
+          padding: 10px;
+          border: 1px solid #ccc;
+          border-radius: 4px;
+          font-size: 16px;
+        }
+  
+        button {
+          background-color: #3498db;
+          color: #fff;
+          font-weight: bold;
+          padding: 10px;
+          border: none;
+          border-radius: 4px;
+          cursor: pointer;
+  
+          &:hover {
+            background-color: #2980b9;
+          }
+        }
+      }
+  
+      small {
+        margin-top: 15px;
+        color: #777;
+        text-align: center;
+  
+        a {
+          color: #3498db;
+          text-decoration: none;
+  
+          &:hover {
+            text-decoration: underline;
+          }
+        }
+      }
+    }
+  }
+  
+  .top-navigation-bar {
+    z-index: 2; /* Ensure the top-navigation-bar is above the background */
+  }
+  

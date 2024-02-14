@@ -2,49 +2,115 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background-color: #322cad; /* Background color for the navigation bar */
-  padding: 10px 20px; /* Add some padding to the top and bottom */
-  color: #fff; /* Text color */
-  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2); /* Add a subtle box shadow */
-  position: relative;
+  background-color: #2c3e50; /* Darker background color for the navigation bar */
+  padding: 15px 20px; /* Increase padding for a more spacious look */
+  color: #ecf0f1; /* Light text color for contrast */
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); /* Slightly increase box shadow for depth */
 
   .logo {
-    height: 60px;
-    margin-left: 30px;
-    transition: transform 0.3s ease; /* Add a smooth transformation on hover */
+    height: 50px;
+    margin-left: 20px;
+    transition: transform 0.3s ease;
 
     &:hover {
-      transform: scale(1.1); /* Scale up the logo on hover */
+      transform: scale(1.05);
     }
   }
+
   .search-bar {
     display: flex;
-    background-color: whitesmoke;
+    background-color: #34495e; /* Darker background color for the search bar */
     margin-left: 20px;
-    flex-direction: row;
-    align-content: center;
-    justify-content: space-between;
     align-items: center;
-    padding-left: 10px;
-    padding-right: 10px;
-    border-color: black;
+    padding: 5px 10px;
+    border-radius: 5px;
+
+    input {
+      border: none;
+      background-color: transparent;
+      color: #ecf0f1;
+      width: 200px;
+      margin-right: 10px;
+
+      &::placeholder {
+        color: #bdc3c7;
+      }
+    }
+
+    button {
+      background-color: #ececec00;
+      color: #ecf0f1;
+      border: none;
+      padding: 8px 12px;
+      border-radius: 3px;
+      cursor: pointer;
+      font-weight: bold;
+      transition: background-color 0.3s ease;
+
+      &:hover {
+        background-color: #2980b9;
+      }
+    }
   }
 
-  
+  .center-content {
+    display: flex;
+    align-items: center;
+    
     span {
       margin-right: 15px;
       font-weight: bold;
-      font-size: 18px;
-      letter-spacing: 1px;
-      text-transform: lowercase;
+      font-size: 16px;
+      text-transform: uppercase;
+    }
+
+    .login-button {
+      background-color: #34495e;
+
+
+      margin-left: 20px;
+      align-items: center;
+      padding: 16px 20px;
+      border-radius: 5px;
+
+
+      color: #fff;
+      text-decoration: none;
+      cursor: pointer;
+    
+      &:hover {
+        background-color: #2980b9;
+      }
     }
     
-}
 
-/* Add margin to create space between components */
-.navigation-items span,
-.navigation-items button,
-.navigation-items a,
-.navigation-items .FavIcon {
-  margin-right: 10px; /* Adjust the margin to create the desired spacing */
+    .FavIcon {
+      margin-right: 15px;
+      cursor: pointer;
+
+      &:hover {
+        color: #e74c3c;
+      }
+    }
+
+    .MuiIconButton-root {
+      color: #fff;
+      margin-left: 10px;
+
+      &:hover {
+        color: #3498db;
+      }
+    }
+
+    .MuiMenu-paper {
+      background-color: #2c3e50;
+      color: #ecf0f1;
+    }
+
+    .MuiMenuItem-root {
+      &:hover {
+        background-color: #34495e;
+      }
+    }
+  }
 }

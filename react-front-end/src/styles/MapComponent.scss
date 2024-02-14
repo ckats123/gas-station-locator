@@ -1,53 +1,112 @@
-/* MapComponent.css */
+/* MapComponent.scss */
+
+.Map-container {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+  padding: 20px;
+}
+
 .mapContainer {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    overflow: hidden;
-  }
-  
-  #map {
-    width: 400px;
-    height: 400px;
-    border-radius: 50%;
-    border: 5px solid blue;
-    overflow: hidden;
-    /* Center the map container. Not strictly necessary with flexbox on body,
-       but useful if the map is within another container. */
-    margin: auto;
-  }
-  
-  /* Add this if your map is within a specific container other than body,
-     and you want that container to be centered as well. */
-  .mapContainer {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 100%; /* Adjust width as needed */
-    height: 100vh; /* Use viewport height to make it center vertically */
-  }
-  .marker {
-    background-image: url('../../public/marker1.png');
-    background-size: cover;
-  }
-  
-  /* Style for the user location marker */
-  .user-marker {
-    background-image: url('../../public/user-marker.png');
-    background-size: cover;
-  }
-  
-  /* Style for the closest marker */
-  .closest-marker {
-    background-color: #ff0000; /* Red background for emphasis */
-    border: 2px solid #ffffff; /* White border for visibility */
-    border-radius: 50%; /* Circular shape */
-  }
-  
-  /* Style for the cheapest marker */
-  .cheapest-marker {
-    background-color: #00ff00; /* Green background for emphasis */
-    border: 2px solid #ffffff; /* White border for visibility */
-    border-radius: 50%; /* Circular shape */
-  }
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  overflow: hidden;
+}
+
+#map {
+  grid-column: span 2;
+  height: 50%; /* Adjusted for responsiveness */
+  width: 750px;
+  max-width: 750px; /* Added max-width for responsiveness */
+  border-radius: 50%;
+  border: 5px solid blue;
+  overflow: hidden;
+  margin: auto;
+}
+
+.loading-screen {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+/* Updated styles for dropdowns */
+.dropdown-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+.dropdown-menus {
+  grid-column: 1;
+  width: 25%;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.empty {
+  margin-top: 320px;
+}
+
+.dropdown {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 10px;
+  width: 100%; /* Adjusted width for responsiveness */
+}
+
+.dropdown-menus select {
+  background-color: #3498db;
+  color: white;
+  padding: 14px;
+  font-size: 16px;
+  border: none;
+  cursor: pointer;
+  border-radius: 4px;
+  width: 80%; /* Adjusted width for responsiveness */
+}
+
+/* Stylish dropdown options */
+.dropdown-menus select option {
+  background-color: #f9f9f9;
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+  border-radius: 4px;
+}
+
+/* Change color of dropdown option on hover */
+.dropdown-menus select option:hover {
+  background-color: #3498db;
+  color: white;
+}
+
+/* Remove default arrow for select box */
+.dropdown-menus select::-ms-expand {
+  display: none;
+}
+
+.dropdown-menus select::-webkit-scrollbar {
+  width: 8px;
+}
+
+.dropdown-menus select::-webkit-scrollbar-thumb {
+  background-color: #3498db;
+  border-radius: 4px;
+}
+
+.dropdown-menus select::-webkit-scrollbar-track {
+  background-color: #f9f9f9;
+}
+
+
+.empty-space {
+  grid-column: 4;
+  width: 25%;
+}
