@@ -1,19 +1,19 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import axios from "axios"; 
+import axios from "axios";
 import "../styles/TopNavigationBar.scss";
 import FavIcon from "../components/FavIcon";
 import MenuIcon from "@mui/icons-material/Menu";
 import { Menu, MenuItem, InputBase, IconButton } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 
-const TopNavigationBar = ({setGasStations}) => {
+const TopNavigationBar = ({ setGasStations }) => {
   const navigate = useNavigate();
   const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
   const userName = localStorage.getItem("userName");
   const [searchQuery, setSearchQuery] = useState("");
- // const [gasStations, setGasStations] = useState([]); 
-  const [panToUser, setPanToUser] = useState(false); 
+  // const [gasStations, setGasStations] = useState([]);
+  const [panToUser, setPanToUser] = useState(false);
 
   const handleFavIconClick = () => {
     navigate("/favorites");
@@ -53,18 +53,19 @@ const TopNavigationBar = ({setGasStations}) => {
   const handleSearch = () => {
     console.log("Performing search for:", searchQuery);
     // Perform the search logic and update the map component
-    axios.get(`/api/gas-stations/search?keyword=${searchQuery}`)
-    .then(response => {
-      // Pass the search results to the map component
-      setGasStations(response.data);
-      console.log(response.data)
+    axios
+      .get(`/api/gas-stations/search?keyword=${searchQuery}`)
+      .then((response) => {
+        // Pass the search results to the map component
+        setGasStations(response.data);
+        console.log(response.data);
 
-      // Update the map center to the user's location
-      setPanToUser(true);
-    })
-    .catch(error => {
-      console.error('Error searching gas stations:', error);
-    });
+        // Update the map center to the user's location
+        setPanToUser(true);
+      })
+      .catch((error) => {
+        console.error("Error searching gas stations:", error);
+      });
   };
 
   return (
@@ -73,21 +74,24 @@ const TopNavigationBar = ({setGasStations}) => {
         <img src="/logoo.png" alt="Logo" className="logo" />
       </Link>
       <div className="search-bar">
-              <InputBase
-                placeholder="Search..."
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                onKeyDown={(e) => e.key === "Enter" && handleSearch()}
-              />
-              <IconButton onClick={handleSearch}>
-                <SearchIcon />
-              </IconButton>
-            </div>
+        <InputBase
+          placeholder="Search..."
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+          onKeyDown={(e) => e.key === "Enter" && handleSearch()}
+        />
+        <IconButton onClick={handleSearch}>
+          <SearchIcon />
+        </IconButton>
+      </div>
       <div className="center-content">
         {isLoggedIn ? (
           <>
-            <span>Hello, {userName}</span>
-            <span onClick={handleFavIconClick} style={{ cursor: "pointer" }}>
+            <span>Hello, {userName}   </span>
+            <span
+              onClick={handleFavIconClick}
+              style={{ cursor: "pointer" }}
+            >
               <FavIcon selected="true" />
             </span>
             <MenuIcon
@@ -125,9 +129,7 @@ const TopNavigationBar = ({setGasStations}) => {
         )}
       </div>
     </nav>
-    
   );
 };
-
 
 export default TopNavigationBar;
