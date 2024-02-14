@@ -54,3 +54,13 @@ ALTER TABLE reviews
 ADD CONSTRAINT fk_gas_station
 FOREIGN KEY (gas_station_id)
 REFERENCES gas_stations(id);
+
+
+CREATE TABLE users (
+    id SERIAL NOT NULL PRIMARY KEY,
+    name VARCHAR(50),
+    lastname VARCHAR(50),
+    username VARCHAR(50),
+    email VARCHAR(150) UNIQUE,
+    password VARCHAR(255)
+);
