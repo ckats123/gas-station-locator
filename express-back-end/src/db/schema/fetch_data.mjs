@@ -5,12 +5,12 @@ const { Pool } = pkg;
 
 // Replace with your PostgreSQL connection details
 const pool = new Pool({
-  user: 'fedamuhammadian',
+  user: 'maryanibrahim',  
   host: 'localhost',
-  database: 'gas',
-  password: 'admin',
+  database: 'gas_station_db',  
   port: 5432,
 });
+
 
 // List of cities with their coordinates
 const cities = [

@@ -7,12 +7,12 @@ import axios from 'axios';
 // Set up PostgreSQL connection
 
 const pool = new Pool({
-    user: 'fedamuhammadian',
+    user: 'maryanibrahim', 
     host: 'localhost',
-    database: 'gas',
-    password: 'admin',
+    database: 'gas_station_db',
     port: 5432,
-});
+  });
+  
 
 async function geocodeAndInsert() {
     try {

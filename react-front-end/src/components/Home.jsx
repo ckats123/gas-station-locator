@@ -15,5 +15,4 @@ const Home = ({gasStations, setGasStations}) => {
   );
 };
 
-// Export the Home component
 export default Home;

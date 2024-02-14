@@ -1,8 +1,41 @@
+.home-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.gas-station-info {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.logo-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 10px;
+}
+
+.logo {
+  width: 100px; 
+  height: 100px; 
+  border-radius: 50%;
+  border: 2px solid #ccc;
+}
+
+.logo-name {
+  margin-top: 5px;
+}
+
+
+/* Enhance MapComponentContainer if it's part of your global styles */
 .MapComponentContainer {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
+  padding: 20px; /* Ensure some space around */
 }
 
 .MapComponent {
@@ -11,4 +44,5 @@
   border-radius: 50%;
   border: 5px solid rgba(100, 100, 102, 0.419);
   overflow: hidden;
+  box-shadow: 0 8px 10px rgba(0,0,0,0.2); /* Add shadow for depth */
 }
