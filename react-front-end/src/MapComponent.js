@@ -6,7 +6,7 @@ import axios from 'axios';
 import './styles/MapComponent.scss';
 import 'leaflet/dist/leaflet.css';
 
-const GasStationMap = ({ panToUser, setPanToUser, gasStations, setGasStations }) => {
+const GasStationMap = ({ gasStations, setGasStations }) => {
   // State variables
   const [map, setMap] = useState(null);
   const [userLocation, setUserLocation] = useState(null);
@@ -16,6 +16,7 @@ const GasStationMap = ({ panToUser, setPanToUser, gasStations, setGasStations })
   const [closestGasStation, setClosestGasStation] = useState(null);
   const [cheapestGasStation, setCheapestGasStation] = useState(null);
   const [selectedMarker, setSelectedMarker] = useState(null);
+  const [selectedPaymentMethod, setSelectedPaymentMethod] = useState(null);
 
   // Fetch user's geolocation on component mount
   useEffect(() => {
@@ -36,20 +37,22 @@ const GasStationMap = ({ panToUser, setPanToUser, gasStations, setGasStations })
 
   // Fetch gas station data and send user location to backend on userLocation change
   useEffect(() => {
-    if (userLocation) {
-      // Fetch gas station data from the backend API
+    if (userLocation || selectedPaymentMethod ) {
+      const params = {
+        lat: userLocation[0],
+        lng: userLocation[1],
+        paymentMethod: selectedPaymentMethod,
+      };
+  
       axios
-        .get('/api/gas-stations', { params: { lat: userLocation[0], lng: userLocation[1] } })
+        .get('/api/gas-stations', { params })
         .then(response => setGasStations(response.data))
+        
         .catch(error => console.error('Error fetching gas stations:', error));
-
-      // Send user location to the '/api/user-location' route
-      axios
-        .post('/api/user-location', { latitude: userLocation[0], longitude: userLocation[1] })
-        .then(response => console.log('User location sent to backend:', response.data))
-        .catch(error => console.error('Error sending user location to backend:', error));
     }
-  }, [userLocation]);
+  }, [userLocation, selectedPaymentMethod]);
+
+  console.log(gasStations);
 
   // Initialize Leaflet map on userLocation change
   useEffect(() => {
@@ -104,9 +107,8 @@ const GasStationMap = ({ panToUser, setPanToUser, gasStations, setGasStations })
   useEffect(() => {
     if (map && userLocation) {
       map.setView(userLocation, map.getZoom());
-      setPanToUser(false);
     }
-  }, [map, userLocation, panToUser, gasStations]);
+  }, [map, userLocation, gasStations]);
 
   // Find the closest and cheapest gas stations when gasStations change
   useEffect(() => {
@@ -126,9 +128,38 @@ const GasStationMap = ({ panToUser, setPanToUser, gasStations, setGasStations })
     }
   }, [gasStations, userLocation]);
 
+
   // Render the component
   return (
-    <div id="map" style={{ height: '750px', width: '750px', position: 'relative' }}>
+    <div className='Map-container' style={{ display: 'flex' }}>
+      {/* Drop-down menus*/}
+      
+      <div className='dropdown-menus'>
+        <div className='empty'>
+
+        </div>
+      <div className='dropdown'>
+        <select
+        onChange={(e) => setSelectedPaymentMethod(e.target.value)}
+        value={selectedPaymentMethod}
+      >
+        <option value="">Select Payment Method</option>
+        <option value="debit">Debit</option>
+        <option value="credit">Credit</option>
+        <option value="cash">Cash</option>
+        <option value="crypto">Crypto</option>
+      </select>
+      </div>
+      <div className='dropdown'>
+      <select>
+        <option value="">Select Fuel Type</option>
+        <option value="gasoline">Gasoline</option>
+        <option value="diesel">Diesel</option>
+      </select>
+      </div>
+    </div>
+
+    <div className='map' id="map" style={{ height: '750px', width: '750px', position: 'relative' }}>
       {loading && (
         <div className="loading-screen" style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)' }}>
           <img src="/loading-image.gif" alt="Loading..." />
@@ -167,6 +198,7 @@ const GasStationMap = ({ panToUser, setPanToUser, gasStations, setGasStations })
                     <p>Premium: ${station.premium_price}/L</p>
                     <p>Diesel: ${station.diesel_price}/L</p>
                     <p>Rating: {station.rating}</p>
+                    <p>Payment Method: {station.payment_method}</p>
                   </div>
                 </Popup>
               </Marker>
@@ -206,6 +238,7 @@ const GasStationMap = ({ panToUser, setPanToUser, gasStations, setGasStations })
                   <p>Premium: ${closestGasStation.premium_price}/L</p>
                   <p>Diesel: ${closestGasStation.diesel_price}/L</p>
                   <p>Rating: {closestGasStation.rating}</p>
+                  <p>Payment Method: {closestGasStation.payment_method}</p>
                   <p>Closest gas station</p>
                 </div>
               </Popup>
@@ -233,6 +266,7 @@ const GasStationMap = ({ panToUser, setPanToUser, gasStations, setGasStations })
                   <p>Premium: ${cheapestGasStation.premium_price}/L</p>
                   <p>Diesel: ${cheapestGasStation.diesel_price}/L</p>
                   <p>Rating: {cheapestGasStation.rating}</p>
+                  <p>Payment Method: {cheapestGasStation.payment_method}</p>
                   <p>Cheapest gas station</p>
                 </div>
               </Popup>
@@ -240,6 +274,10 @@ const GasStationMap = ({ panToUser, setPanToUser, gasStations, setGasStations })
           )}
         </MapContainer>
       )}
+    </div>
+      <div className='empty-space'>
+          {/* Empty for now */}
+        </div>
     </div>
   );
 };

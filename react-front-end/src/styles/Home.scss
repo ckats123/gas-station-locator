@@ -39,9 +39,10 @@
 }
 
 .MapComponent {
-  max-width: 100%; /* Ensure responsiveness */
-  border-radius: 20px; /* Smoothed corners */
-  border: 5px solid deepskyblue; /* A more vibrant border color */
+  width: 500px;
+  height: 500px;
+  border-radius: 50%;
+  border: 5px solid rgba(100, 100, 102, 0.419);
   overflow: hidden;
   box-shadow: 0 8px 10px rgba(0,0,0,0.2); /* Add shadow for depth */
 }

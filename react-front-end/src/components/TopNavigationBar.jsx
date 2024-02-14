@@ -73,16 +73,16 @@ const TopNavigationBar = ({setGasStations}) => {
         <img src="/logoo.png" alt="Logo" className="logo" />
       </Link>
       <div className="search-bar">
-              <InputBase
-                placeholder="Search..."
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                onKeyDown={(e) => e.key === "Enter" && handleSearch()}
-              />
-              <IconButton onClick={handleSearch}>
-                <SearchIcon />
-              </IconButton>
-            </div>
+        <InputBase
+          placeholder="Search..."
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+          onKeyDown={(e) => e.key === "Enter" && handleSearch()}
+        />
+        <IconButton onClick={handleSearch}>
+          <SearchIcon />
+        </IconButton>
+      </div>
       <div className="center-content">
         {isLoggedIn ? (
           <>
@@ -108,26 +108,21 @@ const TopNavigationBar = ({setGasStations}) => {
                   "aria-labelledby": "basic-button",
                 }}
               >
-                <MenuItem onClick={() => handleClose("account")}>
-                  Account
-                </MenuItem>
-                <MenuItem onClick={() => handleClose("search")}>
-                  Search
-                </MenuItem>
-                <MenuItem onClick={() => handleClose("logout")}>
-                  Logout
-                </MenuItem>
+                <MenuItem onClick={() => handleClose("account")}>Account</MenuItem>
+                <MenuItem onClick={() => handleClose("search")}>Search</MenuItem>
+                <MenuItem onClick={() => handleClose("logout")}>Logout</MenuItem>
               </Menu>
             )}
           </>
         ) : (
-          <Link to="/login">Login</Link>
+          // Replace the basic "Login" text with login button
+          <Link to="/login" className="login-button">
+            Login
+          </Link>
         )}
       </div>
     </nav>
-    
   );
 };
-
 
 export default TopNavigationBar;

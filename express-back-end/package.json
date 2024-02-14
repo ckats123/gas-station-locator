@@ -7,6 +7,7 @@
   "license": "MIT",
   "scripts": {
     "go": "nodemon server.js",
+    "test": "jest",
     "start": "concurrently \"npm run go\" \"cd ../react-front-end && npm start\""
   },
   "dependencies": {
@@ -21,5 +22,9 @@
     "jwt-generator": "^3.1.0",
     "nodemon": "^3.0.3",
     "pg": "^8.11.3"
+  },
+  "devDependencies": {
+    "jest": "^29.7.0",
+    "supertest": "^6.3.4"
   }
 }
