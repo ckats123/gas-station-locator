@@ -1,7 +1,8 @@
-require('dotenv').config();
+require("dotenv").config();
 
 const express = require("express");
 const cors = require("cors");
+const app = express();
 
 // Routes
 const gasStationRoute = require("./routes/gas-stations");
