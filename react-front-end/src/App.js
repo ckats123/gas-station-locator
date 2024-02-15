@@ -4,6 +4,7 @@ import TopNavigationBar from './components/TopNavigationBar';
 import Home from './components/Home';
 import Login from './components/login';
 import Register from './components/Register';
+import AccountPage from './components/AccountPage';
 import "./App.css";
 import 'leaflet/dist/leaflet.css';
 import Search from "./components/Search";
@@ -20,6 +21,7 @@ function App() {
         <Route path="/login" element={<LoginWithNavigate />} />        
         <Route path="/register" element={<Register />} />
         <Route path="/Search" element={<Search />} />
+        <Route path="/account" element={<AccountPage />} />
       </Routes>
     </div>
   );
