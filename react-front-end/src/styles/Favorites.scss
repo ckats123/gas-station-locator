@@ -1,0 +1,50 @@
+
+$primary-color: #3498db;
+$background-color: white;
+$text-color: #333;
+$button-color: #27ae60;
+$modal-background: rgba(0, 0, 0, 0.5);
+$modal-content-background: #fff;
+$modal-content-border: 1px solid #ddd;
+$modal-content-padding: 20px;
+
+.favorites-page {
+  max-width: 600px;
+  margin-top: 100px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: auto;
+  padding: 20px;
+  background-color: $background-color;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  font-family: Arial, Helvetica, sans-serif;
+  height: calc(100vh - 50px); /* Subtract the height of the top navigation bar */
+}
+
+h2 {
+  color: teal;
+  margin-bottom: 20px;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+  .card-list{
+    background-color:teal;
+    flex: 1 1 auto;
+    margin: auto;
+    width: 50%;
+    border: 3px solid green;
+    padding: 10px;
+  }
+  
+  .card{
+    flex: 1 1 auto;
+    justify-content: space-around;
+    background-color: white;
+    border-radius: 4px;
+    font-family: Arial, Helvetica, sans-serif;
+    &:hover {
+      transform: scale(1.05);
+    }
+  }
+
