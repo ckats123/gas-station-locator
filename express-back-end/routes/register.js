@@ -7,6 +7,7 @@ const bcrypt = require("bcrypt");
 // Registering
 router.post("/", async (req, res) => {
     try {
+        console.log(req.body);
         const { name, lastname, username, email, password } = req.body;
 
         // Check if the user already exists
