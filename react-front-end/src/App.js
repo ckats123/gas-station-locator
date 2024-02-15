@@ -6,6 +6,7 @@ import Home from './components/Home';
 import Login from './components/login';
 import Register from './components/Register';
 import AccountPage from './components/AccountPage';
+import Favorites from './components/Favorites';
 import "./App.css";
 import 'leaflet/dist/leaflet.css';
 import Search from "./components/Search";
@@ -23,6 +24,7 @@ function App() {
         <Route path="/register" element={<Register />} />
         <Route path="/Search" element={<Search />} />
         <Route path="/account" element={<AccountPage />} />
+        <Route path="/favorites" element={<Favorites />} />
       </Routes>
       <BottomNavigationBar />
     </div>
