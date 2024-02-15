@@ -1,0 +1,186 @@
+// AccountPage.scss
+
+$primary-color: #3498db;
+$background-color: #f2f2f2;
+$text-color: #333;
+$button-color: #27ae60;
+$info-box-background: #fff;
+$info-box-border: 1px solid #ddd;
+$info-box-padding: 10px;
+$modal-background: rgba(0, 0, 0, 0.5);
+$modal-content-background: #fff;
+$modal-content-border: 1px solid #ddd;
+$modal-content-padding: 20px;
+
+.AccountPage {
+  max-width: 600px;
+  margin-top: 100px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: auto;
+  padding: 20px;
+  background-color: $background-color;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+
+  h2 {
+    color: $primary-color;
+    margin-bottom: 20px;
+  }
+
+  .info-box {
+    background-color: $info-box-background;
+    border: $info-box-border;
+    border-radius: 4px;
+    padding: $info-box-padding;
+    margin-bottom: 10px;
+
+    label {
+      font-weight: bold;
+      margin-bottom: 5px;
+      color: $primary-color;
+    }
+
+    div {
+      color: $text-color;
+    }
+  }
+
+  .button-container {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: row;
+    align-items:cener;
+    justify-content: center;
+    
+  .close-button-box {
+    border-radius: 4px;
+    padding: $info-box-padding;
+    margin-bottom: 20px;
+  }
+    button {
+      background-color: $button-color;
+      color: #fff;
+      padding: 10px 15px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+
+      &:hover {
+        background-color: darken($button-color, 10%);
+      }
+    }
+  }
+
+  .password-change-box {
+    border-radius: 4px;
+    padding: $info-box-padding;
+    margin-bottom: 20px;
+
+    h3 {
+      color: $primary-color;
+      margin-bottom: 10px;
+    }
+
+    .button-container {
+      display: flex;
+      justify-content: space-between;
+
+      button {
+        flex: 1;
+        margin-right: 10px;
+
+        &:last-child {
+          margin-right: 0;
+        }
+      }
+    }
+  }
+
+  .modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: $modal-background;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1;
+
+    .modal-content {
+      background-color: $modal-content-background;
+      border: $modal-content-border;
+      border-radius: 4px;
+      padding: $modal-content-padding;
+      position: relative;
+
+      .close {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        font-size: 20px;
+        cursor: pointer;
+      }
+
+      h2 {
+        color: $primary-color;
+        margin-bottom: 10px;
+      }
+
+      .button-container {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 20px;
+
+        button {
+          flex: 1;
+          margin-right: 10px;
+
+          &:last-child {
+            margin-right: 0;
+          }
+        }
+      }
+
+      div {
+        margin-bottom: 10px;
+
+        label {
+          font-weight: bold;
+          margin-bottom: 5px;
+          color: $primary-color;
+        }
+
+        input {
+          width: 100%;
+          padding: 8px;
+          border: 1px solid #ddd;
+          border-radius: 4px;
+          box-sizing: border-box;
+        }
+      }
+
+      .error-message {
+        color: red;
+        margin-top: 10px;
+      }
+
+      button {
+        background-color: $button-color;
+        color: #fff;
+        padding: 10px 15px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+
+        &:hover {
+          background-color: darken($button-color, 10%);
+        }
+      }
+    }
+  }
+}
+
+

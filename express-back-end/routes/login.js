@@ -11,7 +11,7 @@ router.post("/", async (req, res) => {
 
     // Check if the user exists
     const user = await db.query(
-      "SELECT * FROM users WHERE email = $1",
+      "SELECT id, password FROM users WHERE email = $1",
       [email]
     );
 
@@ -25,7 +25,8 @@ router.post("/", async (req, res) => {
         return res.status(401).send("Invalid email or password");
       }
 
-      res.status(200).json({ message: 'Login successful' });
+      // Send user.id in the response
+      res.status(200).json({ id: user.rows[0].id, message: 'Login successful' });
     }
   } catch (err) {
     console.error(err.message);

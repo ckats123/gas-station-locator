@@ -28,6 +28,9 @@ const Login = () => {
 
       if (response.status === 200) {
         // Login successful, redirect to home page
+        const userId = response.data.id;
+        console.log(userId);
+        localStorage.setItem('userId', userId);
         localStorage.setItem('userEmail', formData.email);
         localStorage.setItem("isLoggedIn", "true");
         console.log('Login successful');

@@ -9,6 +9,7 @@
 
   .logo {
     height: 50px;
+    width: 50px;
     margin-left: 20px;
     transition: transform 0.3s ease;
 
@@ -21,15 +22,17 @@
     display: flex;
     background-color: #34495e; /* Darker background color for the search bar */
     margin-left: 20px;
-    align-items: center;
+    float: right;
     padding: 5px 10px;
     border-radius: 5px;
+    
 
     input {
       border: none;
       background-color: transparent;
       color: #ecf0f1;
       width: 200px;
+      float: right;
       margin-right: 10px;
 
       &::placeholder {
