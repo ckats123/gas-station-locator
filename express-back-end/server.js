@@ -3,12 +3,12 @@ require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
 
-const app = express(); // Creating an instance of Express. this is the missing part
+const app = express();
+const bodyParser = require("body-parser");
 
 // Middleware
 app.use(cors());
 app.use(express.json());
-
 
 // Routes
 const gasStationRoute = require("./routes/gas-stations");
@@ -27,7 +27,15 @@ const accountRoute = require("./routes/account")
 //const accountRoute = require("./routes/account");
 //const settingsRoute = require("./routes/settings");
 
+const corsOptions = {
+  AccessControlAllowOrigin: "*",
+  origin: "*",
+  methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+};
+app.use(cors(corsOptions));
+
 // Use routes
+app.use(bodyParser.json());
 app.use("/api/gas-stations", gasStationRoute);
 app.use("/api/user-location", userLocationRoute);
 //app.use("/api/gasStationPrice", gasStationPriceRoute);
