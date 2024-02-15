@@ -2,18 +2,11 @@
   
   .welcome-page {
     display: flex;
-    align-items: center;
+    background-color:teal;
+    font-family: Arial, Helvetica, sans-serif;
     height: calc(100vh - 50px); /* Subtract the height of the top navigation bar */
   }
   
-  .text-container {
-    flex: 1;
-    padding: 20px;
-    color: blue;
-    text-align: right;
-    opacity: 0;
-    animation: fadeInText 1s ease forwards;
-  }
   
   @keyframes fadeInText {
     from {
@@ -25,18 +18,32 @@
       transform: translateX(0);
     }
   }
-  
-  .image-container {
-    flex: 1;
-    text-align: center;
-    opacity: 0;
-    animation: fadeInImage 1s ease forwards;
+
+  .container-gas{
+    background-color:teal;
+    flex: 1 1 auto;
+    justify-content: space-around;
+    padding-top: 6em;
   }
   
-  .image-container .image {
-    max-width: 100%;
-    height: auto;
+  .container-map{
+    flex: 1 1 auto;
+    justify-content: space-around;
+    padding-top: 6em;
+    &:hover {
+      transform: scale(1.15);
+    }
   }
+
+  .container-fav{
+    flex: 1 1 auto;
+    padding-top: 6em;
+    &:hover {
+      transform: scale(1.15);
+    }
+
+  }
+
   
   @keyframes fadeInImage {
     from {
