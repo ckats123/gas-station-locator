@@ -2,7 +2,13 @@ require("dotenv").config();
 
 const express = require("express");
 const cors = require("cors");
-const app = express();
+
+const app = express(); // Creating an instance of Express. this is the missing part
+
+// Middleware
+app.use(cors());
+app.use(express.json());
+
 
 // Routes
 const gasStationRoute = require("./routes/gas-stations");
@@ -12,6 +18,7 @@ const userLocationRoute = require("./routes/user-location");
 //const favoritesRoute = require("./routes/favorites");
 const loginRoute = require("./routes/login");
 const registerRoute = require("./routes/register");
+const accountRoute = require("./routes/account")
 //const userRoute = require("./routes/user");
 //const reviewRoute = require("./routes/review");
 //const notificationRoute = require("./routes/notification");
@@ -32,12 +39,10 @@ app.use("/api/register", registerRoute);
 //app.use("/api/notification", notificationRoute);
 //app.use("/api/location", locationRoute);
 //app.use("/api/update", updateRoute);
-//app.use("/api/account", accountRoute);
+app.use("/api/account", accountRoute);
 //app.use("/api/settings", settingsRoute);
 
-// Use routes
-app.use("/api/gasStations", gasStationRoute);
-app.use("/api/userLocation", userLocationRoute);
+
 
 // Start the server
 const PORT = process.env.PORT || 8080;

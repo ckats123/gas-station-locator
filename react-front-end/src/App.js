@@ -1,9 +1,11 @@
 import React, {useState} from 'react';
 import { Route, Routes, useNavigate } from 'react-router-dom';
 import TopNavigationBar from './components/TopNavigationBar';
+import BottomNavigationBar from './components/BottomNavigationBar';
 import Home from './components/Home';
 import Login from './components/login';
 import Register from './components/Register';
+import AccountPage from './components/AccountPage';
 import "./App.css";
 import 'leaflet/dist/leaflet.css';
 import Search from "./components/Search";
@@ -20,7 +22,9 @@ function App() {
         <Route path="/login" element={<LoginWithNavigate />} />        
         <Route path="/register" element={<Register />} />
         <Route path="/Search" element={<Search />} />
+        <Route path="/account" element={<AccountPage />} />
       </Routes>
+      <BottomNavigationBar />
     </div>
   );
 }
