@@ -15,7 +15,7 @@ const gasStationRoute = require("./routes/gas-stations");
 const userLocationRoute = require("./routes/user-location");
 
 //const gasStationPriceRoute = require("./routes/gasStationPrice");
-//const favoritesRoute = require("./routes/favorites");
+const favoritesRoute = require("./routes/favorites");
 const loginRoute = require("./routes/login");
 const registerRoute = require("./routes/register");
 const accountRoute = require("./routes/account")
@@ -31,7 +31,7 @@ const accountRoute = require("./routes/account")
 app.use("/api/gas-stations", gasStationRoute);
 app.use("/api/user-location", userLocationRoute);
 //app.use("/api/gasStationPrice", gasStationPriceRoute);
-//app.use("/api/favorites", favoritesRoute);
+app.use("/api/favorites", favoritesRoute);
 app.use("/api/login", loginRoute);
 app.use("/api/register", registerRoute);
 //app.use("/api/user", userRoute);

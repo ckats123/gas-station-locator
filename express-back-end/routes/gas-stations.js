@@ -13,6 +13,7 @@ router.get("/", async (req, res) => {
 
     const query = `
       SELECT
+        gs.id,
         gs.name,
         gs.vicinity,
         gs.payment_method,
@@ -54,6 +55,7 @@ router.get("/search", async (req, res) => {
 
     const searchQuery = `
       SELECT
+        gs.id,
         gs.name,
         gs.vicinity,
         gs.payment_method,
@@ -82,6 +84,7 @@ router.get("/search", async (req, res) => {
     res.status(500).send("Server error");
   }
 });
+
 
 // Get a gas station
 router.get("/:id", async (req, res) => {

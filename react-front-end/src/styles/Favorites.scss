@@ -1,0 +1,42 @@
+// styles/FavoritesPage.scss
+
+// Container for the favorited gas stations
+.fav-stations {
+    margin: 20px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 20px;
+  }
+  
+  // Style for each gas station box
+  .gas-station-box {
+    width: 300px;
+    padding: 15px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    position: relative; // To position the favorite icon within the box
+  
+    h2 {
+      margin-bottom: 10px;
+    }
+  
+    // Map container style
+    .leaflet-container {
+      height: 150px;
+      width: 100%;
+      margin-bottom: 10px;
+    }
+  
+    // Favorite icon style
+    .favorite-icon {
+      position: absolute;
+      bottom: 10px;
+      right: 10px;
+      color: red; // Change color as needed
+      cursor: pointer;
+    }
+  }
+  
