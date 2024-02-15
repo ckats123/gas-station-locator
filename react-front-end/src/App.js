@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 import { Route, Routes, useNavigate } from 'react-router-dom';
 import TopNavigationBar from './components/TopNavigationBar';
+import BottomNavigationBar from './components/BottomNavigationBar';
 import Home from './components/Home';
 import Login from './components/login';
 import Register from './components/Register';
@@ -23,6 +24,7 @@ function App() {
         <Route path="/Search" element={<Search />} />
         <Route path="/account" element={<AccountPage />} />
       </Routes>
+      <BottomNavigationBar />
     </div>
   );
 }
