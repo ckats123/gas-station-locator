@@ -114,8 +114,8 @@ const GasStationMap = ({ gasStations, setGasStations }) => {
   useEffect(() => {
     if (gasStations.length > 0) {
       const closest = gasStations.reduce((prev, curr) => {
-        const prevDistance = L.latLng(userLocation).distanceTo(L.latLng([prev.lat, prev.lng]));
-        const currDistance = L.latLng(userLocation).distanceTo(L.latLng([curr.lat, curr.lng]));
+        const prevDistance = L.latLng(userLocation)?.distanceTo(L.latLng([prev.lat, prev.lng]));
+        const currDistance = L.latLng(userLocation)?.distanceTo(L.latLng([curr.lat, curr.lng]));
         return prevDistance < currDistance ? prev : curr;
       });
 
