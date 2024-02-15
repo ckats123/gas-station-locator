@@ -3,7 +3,7 @@ require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
 const app = express();
-
+const bodyParser = require("body-parser");
 // Routes
 const gasStationRoute = require("./routes/gas-stations");
 const userLocationRoute = require("./routes/user-location");
@@ -20,7 +20,15 @@ const registerRoute = require("./routes/register");
 //const accountRoute = require("./routes/account");
 //const settingsRoute = require("./routes/settings");
 
+const corsOptions = {
+  AccessControlAllowOrigin: "*",
+  origin: "*",
+  methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+};
+app.use(cors(corsOptions));
+
 // Use routes
+app.use(bodyParser.json());
 app.use("/api/gas-stations", gasStationRoute);
 app.use("/api/user-location", userLocationRoute);
 //app.use("/api/gasStationPrice", gasStationPriceRoute);
