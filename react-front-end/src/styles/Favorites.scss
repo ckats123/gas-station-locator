@@ -1,50 +1,43 @@
 
-$primary-color: #3498db;
-$background-color: white;
-$text-color: #333;
-$button-color: #27ae60;
-$modal-background: rgba(0, 0, 0, 0.5);
-$modal-content-background: #fff;
-$modal-content-border: 1px solid #ddd;
-$modal-content-padding: 20px;
+// styles/FavoritesPage.scss
 
-.favorites-page {
-  max-width: 600px;
-  margin-top: 100px;
-  margin-left: auto;
-  margin-right: auto;
-  margin-bottom: auto;
-  padding: 20px;
-  background-color: $background-color;
-  border-radius: 8px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  font-family: Arial, Helvetica, sans-serif;
-  height: calc(100vh - 50px); /* Subtract the height of the top navigation bar */
-}
-
-h2 {
-  color: teal;
-  margin-bottom: 20px;
-  font-family: Arial, Helvetica, sans-serif;
-}
-
-  .card-list{
-    background-color:teal;
-    flex: 1 1 auto;
-    margin: auto;
-    width: 50%;
-    border: 3px solid green;
-    padding: 10px;
+// Container for the favorited gas stations
+.fav-stations {
+    margin: 20px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 20px;
   }
   
-  .card{
-    flex: 1 1 auto;
-    justify-content: space-around;
-    background-color: white;
-    border-radius: 4px;
-    font-family: Arial, Helvetica, sans-serif;
-    &:hover {
-      transform: scale(1.05);
+  // Style for each gas station box
+  .gas-station-box {
+    width: 300px;
+    padding: 15px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    position: relative; // To position the favorite icon within the box
+  
+    h2 {
+      margin-bottom: 10px;
+    }
+  
+    // Map container style
+    .leaflet-container {
+      height: 150px;
+      width: 100%;
+      margin-bottom: 10px;
+    }
+  
+    // Favorite icon style
+    .favorite-icon {
+      position: absolute;
+      bottom: 10px;
+      right: 10px;
+      color: red; // Change color as needed
+      cursor: pointer;
     }
   }
-
+  

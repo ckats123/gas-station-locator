@@ -1,70 +1,69 @@
-import React, { useState } from 'react';
-import { Route } from 'react-router-dom';
-import '../styles/Favorites.scss'; // Import CSS file for styling
 
-// list item with the gas station name and price
-function FavoriteItem({ station, price }) {
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
+import L from 'leaflet';
+
+import ('../styles/Favorites.scss')
+
+const FavoritesPage = () => {
+  const [favorites, setFavorites] = useState([]);
+
+  useEffect(() => {
+    // Fetch favorited gas stations using the user's ID from localStorage
+    const userId = localStorage.getItem('userId');
+    console.log(userId);
+
+    if (userId) {
+      axios.get(`/api/favorites/${userId}`)
+        .then(response => {
+          setFavorites(response.data);
+        })
+        .catch(error => {
+          console.error('Error fetching favorites:', error);
+        });
+    }
+  }, []);
+
   return (
-    <li className="favorite-item">
-      <span className="station-name">{station}</span>
-      <span className="station-price">${price}</span>
-    </li>
-  );
-}
+    <div>
+      <h1>Favorited Gas Stations</h1>
+      <div className='fav-stations'>
 
-//  the list of  gas stations
-// function FavoriteList({ favorites }) {
-//   return (
-//     <ul className="favorite-list">
-//       {favorites.map((fav) => (
-//         <FavoriteItem
-//           key={fav.station}
-//           station={fav.station}
-//           price={fav.price}
-//         />
-//       ))}
-//     </ul>
-//   );
-// }
+      {favorites.map(gasStation => (
+        <div key={gasStation.id} className="gas-station-box">
+          <h2>{gasStation.name}</h2>
+          <p>Address: {gasStation.vicinity}</p>
+          <p>Regular Price: ${gasStation.regular_price}</p>
+          <p>Premium Price: ${gasStation.premium_price}</p>
+          <p>Diesel Price: ${gasStation.diesel_price}</p>
+          <p>Rating: {gasStation.rating}</p>
 
-function Card({ station, price }) {
-  return (
-    <div className="card">
-      <div className="card-header">
-        <h3 className="card-title">{station}</h3>
-      </div>
-      <div className="card-body">
-        <p className="card-text">${price}</p>
-      </div>
-    </div>
-  );
-}
-
-function FavoriteList({ favorites }) {
-  return (
-    <div className="card-list">
-      {favorites.map((fav) => (
-        <Card key={fav.station} station={fav.station} loc={fav.loc} price={fav.price} />
+          {/* Small Leaflet map with the gas station marked */}
+          <MapContainer center={[gasStation.lat, gasStation.lng]} zoom={15} style={{ height: '200px', width: '300px' }}>
+            <TileLayer
+              url="https://tile.openstreetmap.org/{z}/{x}/{y}.png"
+              maxZoom={30}
+              attribution='&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+            />
+            <Marker position={[gasStation.lat, gasStation.lng]}
+            icon={L.icon({
+              iconUrl: '/user-marker.png',
+              iconSize: [25, 25],
+              iconAnchor: [12, 12],
+              popupAnchor: [0, -10],
+            })}
+            >
+              <Popup>{gasStation.name}</Popup>
+            </Marker>
+          </MapContainer>
+          <div className="favorite-icon">❤️</div>
+        </div>
+        
       ))}
     </div>
-  );
-}
-
-// 
-function Favorites() {
-  // A state variable that stores the array of favorite gas stations and prices
-  const [favorites, setFavorites] = React.useState([
-    { station: "Husky @ 200 King St., Victoria", price: 1.49 },
-    { station: "Petro-Canada @ 12 Centre Dr., Victoria", price: 1.51 },
-    { station: "Costco @ 20 Heather Way, Victoria", price: 1.35 },
-  ]);
-
-  return (
-    <div className="favorites">
-      <h2>Current pricing at my favorite gas stations</h2>
-      <FavoriteList favorites={favorites} />
     </div>
   );
-}
+};
 
-export default Favorites;
+export default FavoritesPage;

@@ -114,8 +114,8 @@ const GasStationMap = ({ gasStations, setGasStations }) => {
   useEffect(() => {
     if (gasStations.length > 0) {
       const closest = gasStations.reduce((prev, curr) => {
-        const prevDistance = L.latLng(userLocation).distanceTo(L.latLng([prev.lat, prev.lng]));
-        const currDistance = L.latLng(userLocation).distanceTo(L.latLng([curr.lat, curr.lng]));
+        const prevDistance = L.latLng(userLocation)?.distanceTo(L.latLng([prev.lat, prev.lng]));
+        const currDistance = L.latLng(userLocation)?.distanceTo(L.latLng([curr.lat, curr.lng]));
         return prevDistance < currDistance ? prev : curr;
       });
 
@@ -128,11 +128,54 @@ const GasStationMap = ({ gasStations, setGasStations }) => {
     }
   }, [gasStations, userLocation]);
 
+  const handleFavoriteClick = (gasStationId) => {
+    // Check if user is logged in (retrieve from localStorage)
+    const isLoggedIn = localStorage.getItem('isLoggedIn');
+  
+    if (isLoggedIn) {
+      // Get user ID from localStorage
+      const userId = localStorage.getItem('userId');
+  
+      // Send request to backend to add to favorites
+      axios.post('/api/favorites', { user_id: userId, gas_station_id: gasStationId })
+        .then(response => {
+        // Display success message
+          displaySuccessMessage('Gas station favorited successfully!');
+          console.log('Gas station favorited successfully:', response.data);
+        })
+        .catch(error => {
+          // Handle error
+          console.error('Error favoriting gas station:', error);
+        });
+    } else {
+      // Redirect to login 
+      window.location.href = '/login'; 
+      console.log('User not logged in. Please log in to favorite gas stations.');
+    }
+  };
+  const displaySuccessMessage = (message) => {
+    const successMessageElement = document.getElementById('successMessage');
+  
+    if (successMessageElement) {
+      // Set the success message content
+      successMessageElement.textContent = message;
+  
+      // Optionally, you can show/hide the message element based on your UI logic
+      successMessageElement.style.display = 'block';  // Show the message
+      
+      setTimeout(() => {
+        // Hide the container and remove the message box
+        successMessageElement.style.display = 'none';
+      }, 2000);
+    }
+  };
+
 
   // Render the component
   return (
     <div className='Map-container' style={{ display: 'flex' }}>
       {/* Drop-down menus*/}
+
       
       <div className='dropdown-menus'>
         <div className='empty'>
@@ -199,7 +242,14 @@ const GasStationMap = ({ gasStations, setGasStations }) => {
                     <p>Diesel: ${station.diesel_price}/L</p>
                     <p>Rating: {station.rating}</p>
                     <p>Payment Method: {station.payment_method}</p>
+                    <img
+                      src="/favorite-icon.png"
+                      alt="Favorite"
+                      onClick={() => handleFavoriteClick(station.id)}  
+                      style={{ width: '20px', height: '20px' }} 
+                    />
                   </div>
+                  <div id="successMessage" style={{ display: 'none', color: 'green' }}></div>
                 </Popup>
               </Marker>
             );
@@ -240,6 +290,12 @@ const GasStationMap = ({ gasStations, setGasStations }) => {
                   <p>Rating: {closestGasStation.rating}</p>
                   <p>Payment Method: {closestGasStation.payment_method}</p>
                   <p>Closest gas station</p>
+                  <img
+                      src="/favorite-icon.png"
+                      alt="Favorite"
+                      onClick={() => handleFavoriteClick(closestGasStation.id)}  
+                      style={{ width: '20px', height: '20px' }} 
+                    />
                 </div>
               </Popup>
             </Marker>
@@ -268,6 +324,12 @@ const GasStationMap = ({ gasStations, setGasStations }) => {
                   <p>Rating: {cheapestGasStation.rating}</p>
                   <p>Payment Method: {cheapestGasStation.payment_method}</p>
                   <p>Cheapest gas station</p>
+                  <img
+                      src="/favorite-icon.png"
+                      alt="Favorite"
+                      onClick={() => handleFavoriteClick(cheapestGasStation.id)}  
+                      style={{ width: '20px', height: '20px' }} 
+                    />
                 </div>
               </Popup>
             </Marker>

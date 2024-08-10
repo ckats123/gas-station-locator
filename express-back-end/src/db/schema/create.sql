@@ -64,3 +64,22 @@ CREATE TABLE users (
     email VARCHAR(150) UNIQUE,
     password VARCHAR(255)
 );
+
+DROP TABLE IF EXISTS favorites;
+
+CREATE TABLE favorites (
+    id SERIAL PRIMARY KEY,
+    gas_station_id INT REFERENCES gas_stations(id),
+    user_id INT REFERENCES users(id)
+);
+
+
+ALTER TABLE favorites
+ADD CONSTRAINT fk_gas_station
+FOREIGN KEY (gas_station_id)
+REFERENCES gas_stations(id);
+
+ALTER TABLE favorites
+ADD CONSTRAINT fk_user
+FOREIGN KEY (user_id)
+REFERENCES users(id);
